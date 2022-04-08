@@ -18,7 +18,7 @@
 - `CSS`
 - `Javascript`
 - `PHP`
-- `mySQL` 
+- `MySQL` 
   
 <br/>
 
