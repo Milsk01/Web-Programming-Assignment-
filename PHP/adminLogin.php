@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html>
     <body>
+        <?php include_once 'include.php';?>       
         <?php
-            // create connection 
-            $conn = mysqli_connect("localhost", "root", "", "admin") or 
-            die("Error connecting to database"); 
-
+    
             // get data from form 
             $username = $_POST["username"]; 
             $password = $_POST["password"]; 
 
+            $result = getUser($conn,$username);
+
+
             // statement to be executed - find username :- got in db or not 
             $sql = "Select * from user where username = '$username'"; 
-
-
             $statement = mysqli_stmt_init($conn); 
             
             // create prepared statement
