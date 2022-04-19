@@ -16,47 +16,59 @@
     <script type="text/javascript" src="../js/countdown.js"></script>
     <script type="text/javascript" src="../js/jquery.countdown.js"></script>
     
-  <style>
-    #banner img.img-fluid {
-    filter: grayscale(100%);
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300&display=swap" rel="stylesheet">
+ 
+    <style>
+    .navbar-dark .navbar-brand {
 
-    }
+      font-family: 'Poppins', sans-serif;
+      font-weight :500;
+     }
 
-  </style>
+     li a{
+       border: 1px solid grey ;
+       border-radius :8px
+     }
+    
+     
+    </style>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-        <div class="container">
+<body> 
+    <div>
+        <form action=""></form>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark px-5 py-3 fixed-top">
+     
             <a class="navbar-brand" href="#">Runner's World</a>
             
               
-            <ul class="navbar-nav d-none d-lg-flex ml-2 order-3">
-                <li class="nav-item"><a class="nav-link" href=#>Sign in</a></li>
-            <li class="nav-item"><a class="nav-link" href=#>Sign up</a></li>
+            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex justify-content-between">
+                
+                <li class="nav-item"><a class="nav-link py-2 px-4 bg-white text-dark" href=#>Sign Up</a></li>
             </ul>
             </div>
 
-        </div>
 
         
     </nav>
     <main>
         <!--banner-->
-        <section>
-            <div class="container-fluid p-0" id="banner">
-              <img src="../img/10839696.jpg" class="img-fluid max-width" alt="Responsive image" style = " transform: scaleX(-1);">
-
+    
+            <div class="container-fluid p-0" style="height:auto;max-height:100vh;overflow:hidden" >
+                <img src="..\img\wp2911417-adidas-running-wallpaper.jpg" class="img-fluid" alt="Responsive image" style="filter:brightness(0.6)">
             </div>
         </section>
-
-        <!--countdown-->
+        
+        <!--countdown--> 
+        <div class="container pt-5">
+               <div class=" rounded bg-gradient-4 text-white shadow p-5 text-center mb-5">
+                  <p class="mb-0 font-weight-bold text-uppercase">Let's use some call to actions</p>
+                  <div id="clock-c" class="countdown py-4"></div>
+              </div>
         <section>
-          <div class="container pt-5">
-            <div class=" rounded bg-gradient-4 text-white shadow p-5 text-center mb-5">
-              <p class="mb-0 font-weight-bold text-uppercase">Let's use some call to actions</p>
-              <div id="clock-c" class="countdown py-4"></div>
-  
-          </div>
+        
           </div>
           
           
@@ -64,6 +76,7 @@
 
         <!--info-->
     </main>
+
     <footer>
 
     </footer>
