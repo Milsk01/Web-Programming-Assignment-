@@ -7,8 +7,7 @@
 
     while($category = mysqli_fetch_assoc($result)){
         $array[]= $category; 
-     
-        
+
     }
 
 
