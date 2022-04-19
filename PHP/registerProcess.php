@@ -15,9 +15,9 @@
 	mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 	
 	//check if username has been taken
-	$result = getUser($conn,$username);
+	
 
-	if(mysqli_num_rows($result)==0){
+	if(!$result = getUser($conn,$username)){
 		//check if email is registered
 		$sql2="SELECT * FROM participants WHERE email='$email'";
 		$result2=mysqli_query($conn,$sql2)or die("Error due to ".mysqli_error($con));
