@@ -14,7 +14,7 @@ CHARSET=latin1 COLLATE latin1_swedish_ci;
 
 CREATE TABLE `wpproject`.`event_category` ( 
        `category_id` INT(5) NOT NULL AUTO_INCREMENT , 
-       `cateogry_name` VARCHAR(30) NOT NULL , 
+       `category_name` VARCHAR(30) NOT NULL , 
        `category_quota` INT(2) NOT NULL , 
        PRIMARY KEY (`category_id`)
        ) 
@@ -40,4 +40,4 @@ ALTER TABLE `registration_detail` ADD FOREIGN KEY (`category_id`) REFERENCES `ev
 
 ALTER TABLE `registration_detail` ADD FOREIGN KEY (`username`) REFERENCES `user`(`username`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-INSERT INTO `event_category` (`category_id`, `cateogry_name`, `category_quota`) VALUES (NULL, '5km', '10'), (NULL, '10km', '10')
+INSERT INTO `event_category` (`category_id`, `category_name`, `category_quota`) VALUES (NULL, '5km', '10'), (NULL, '10km', '10')
