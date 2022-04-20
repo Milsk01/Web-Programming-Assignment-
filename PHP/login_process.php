@@ -1,15 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
     <body>
         <?php include_once 'include.php'; include_once 'checkUserExists.php';?>       
         <?php
     
             // get data from form 
-            $username = $_POST["un"]; 
-            $password = $_POST["pwd"]; 
+            $username = $_POST["username"]; 
+            $password = $_POST["password"];  
 
             // statement to be executed - find username :- got in db or not 
-            $sql = "Select * from admin where username = ? "; 
+            $sql = "Select * from user where username = ?"; 
             $statement = mysqli_stmt_init($conn); 
             
             // create prepared statement
@@ -35,9 +41,16 @@
                     $data = mysqli_fetch_array($result, MYSQLI_BOTH); 
 
                     // check if password entered and in db is the same
-                    if($data[1] == $password){
+                    if($data['password'] == $password){
                         echo "Login Successful"; 
-                        header("Location: adminDashboard.php");
+                        session_start(); 
+                        $_SESSION["username"] = $username; 
+                        if($data["role"] == "admin"){
+                            header("Location: adminDashboard.php");
+                        } else {
+                            header("Location: userDashboard.php"); 
+                        }
+                        
                     } else {
                         echo "Wrong Password <br>"; 
                         echo "Login Not Successful"; 

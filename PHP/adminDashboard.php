@@ -2,6 +2,11 @@
 
 <html>
     <body>
+        <?php 
+            session_start(); 
+            $user = $_SESSION["username"]; 
+            echo "<h2>Hello $user</h2>"
+        ?>
         <h1>Admin Dashboard</h1>
 
         <h2>View List of Participants</h2>
@@ -18,7 +23,7 @@
 
         <h2>Add Category</h2>
         <form method="POST" action="addCategory.php"> 
-            <input type="text" name="cat" placeholder="E.g.: 2km, 4km, 10km">
+            <input type="text" name="category_name" placeholder="E.g.: 2km, 4km, 10km">
             <input type="submit" value="Add New Category">
         </form>
     </body>
