@@ -40,4 +40,4 @@ ALTER TABLE `registration_detail` ADD FOREIGN KEY (`category_id`) REFERENCES `ev
 
 ALTER TABLE `registration_detail` ADD FOREIGN KEY (`username`) REFERENCES `user`(`username`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-INSERT INTO `event_category` (`category_id`, `cateogry_name`, `category_quota`) VALUES (NULL, '5km', '10'), (NULL, '10km', '10')
+INSERT INTO `event_category` (`category_id`, `category_name`, `category_quota`) VALUES (NULL, '5km', '10'), (NULL, '10km', '10')
