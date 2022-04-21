@@ -45,10 +45,11 @@
                         echo "Login Successful"; 
                         session_start(); 
                         $_SESSION["username"] = $username; 
+                        $_SESSION["role"] = $data["role"]; 
                         if($data["role"] == "admin"){
-                            header("Location: adminDashboard.php");
+                            header("Location: admin_dashboard.php");
                         } else {
-                            header("Location: userDashboard.php"); 
+                            header("Location: user_dashboard.php"); 
                         }
                         
                     } else {

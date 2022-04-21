@@ -14,31 +14,49 @@ $category_id = $_POST["category_id"];
 $gender = $_POST["gender"];  
 $phone_no = $_POST["phone_no"];  
 $address = $_POST["address"];  
-$username = "asd"; 
+$username = $_POST["username"]; 
 
-$sql = "INSERT INTO registration_detail VALUES ( NULL, ?, ?, ?, ?, ?, ?)"; 
+$sql = "SELECT * FROM registration_detail where username = ?"; 
 
 $statement = mysqli_stmt_init($conn); 
 
 if(!mysqli_stmt_prepare($statement, $sql)){
-    echo "Statement Failed"; 
+    echo "Statement Failed while retrieving data"; 
 } else {
+    mysqli_stmt_bind_param($statement, "s", $username); 
+    mysqli_stmt_execute($statement);
+    
+    $result = mysqli_stmt_get_result($statement); 
 
-    // bind parameters to placeholder 
-    mysqli_stmt_bind_param($statement, "ssssss", $username, $student_id, $category_id, $gender, $phone_no, $address); 
-
-    // execute statement 
-    $result = mysqli_stmt_execute($statement);
-
-    // get data
-    mysqli_stmt_get_result($statement); 
-
-    if($result){
-        echo "Added"; 
+    if(mysqli_num_rows($result) > 0){
+        echo "Existing data. Please update."; 
     } else {
-        echo "Err"; 
+        $insert_sql = "INSERT INTO registration_detail VALUES ( NULL, ?, ?, ?, ?, ?, ?)"; 
+
+        $statement = mysqli_stmt_init($conn); 
+
+        if(!mysqli_stmt_prepare($statement, $insert_sql)){
+            echo "Statement Failed"; 
+        } else {
+
+            // bind parameters to placeholder 
+            mysqli_stmt_bind_param($statement, "ssssss", $username, $student_id, $category_id, $gender, $phone_no, $address); 
+
+            // execute statement 
+            $result = mysqli_stmt_execute($statement);
+
+            // get data
+            mysqli_stmt_get_result($statement); 
+
+            if($result){
+                echo "Added"; 
+            } else {
+                echo "Err"; 
+            }
+        } 
     }
-} 
+}
+
 ?>
 </body>
 </html>

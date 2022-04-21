@@ -7,6 +7,12 @@
     <title>Document</title>
 </head>
 <body>
+    <?php 
+        session_start(); 
+        $username = $_SESSION["username"]; 
+        echo "Hello $username";
+    ?> 
+
     <form action="register_user.php" method="post">
         Username <input type="text" name="username" ><br>
         Full Name <input type="text" name="full_name" ><br>
@@ -14,10 +20,11 @@
         Password <input type="text" name="password"><br>
         <input type="submit" value="Submit">
     </form>
-
-    <form action="register_event.php" method="post">
         <br>
         <br> 
+
+    <form action="register_event.php" method="post">
+        Username: <input type="text" name="username" value="<?php echo $username; ?>" readonly> <br>
         Student ID <input type="text" name="student_id" >
         <br> 
         Category: 

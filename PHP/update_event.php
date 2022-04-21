@@ -7,19 +7,23 @@
     <title>Document</title>
 </head>
 <body>
-    <?php   include_once "include.php"; 
-        $username = $_POST["username"];
-        $full_name = $_POST["full_name"];
-        $email = $_POST["email"];
-        $password = $_POST["password"];
+    <?php   
+        include_once "include.php"; 
 
-        $sql = "UPDATE user SET full_name = ?, email = ?, password = ? WHERE username = ?";
+        $student_id = $_POST["student_id"]; 
+        $category_id = $_POST["category_id"]; 
+        $gender = $_POST["gender"];  
+        $phone_no = $_POST["phone_no"];  
+        $address = $_POST["address"];  
+        $username = $_POST["username"];
+
+        $sql = "UPDATE registration_detail SET student_id = ?, category_id = ?, gender = ?, phone_no = ?, address = ? WHERE username = ?";
         $statement = mysqli_stmt_init($conn); 
         
         if(!mysqli_stmt_prepare($statement, $sql)){
             echo "Failed Statement"; 
         } else { 
-            mysqli_stmt_bind_param($statement, "ssss", $full_name, $email, $password, $username); 
+            mysqli_stmt_bind_param($statement, "ssssss", $student_id, $category_id, $gender, $phone_no, $address, $username); 
             $result = mysqli_stmt_execute($statement); 
 
             if($result){
@@ -28,6 +32,7 @@
                 echo "Err"; 
             }
         }
+
     ?> 
 </body>
 </html>

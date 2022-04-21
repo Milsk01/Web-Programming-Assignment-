@@ -4,20 +4,21 @@
     <body>
         <?php 
             session_start(); 
-            $user = $_SESSION["username"]; 
-            echo "<h2>Hello $user</h2>"
+            $username = $_SESSION["username"]; 
+            $role = $_SESSION["role"]; 
+
+            if(isset($username) and $role == "admin"){
+
         ?>
         <h1>Admin Dashboard</h1>
 
         <h2>View List of Participants</h2>
-        <button> View Table </button>
+        <a href="participant_list.php"> <button> View Table </button> </a>
 
         <h2>Find Participants</h2>
-        <!-- This one up to SK how to implement 
-         just in case needed the form below 
-        --> 
+        
         <form method="POST" action="">
-            <input type="text" name="id" placeholder="ID">
+            <input type="text" name="id" placeholder="Username or Category">
             <input type="submit" value="Find Participant">
         </form>
 
@@ -26,5 +27,13 @@
             <input type="text" name="category_name" placeholder="E.g.: 2km, 4km, 10km">
             <input type="submit" value="Add New Category">
         </form>
+
+        <?php
+            } else if ($role == "user"){
+                echo "Not authorized"; 
+            } else {
+                echo "No session exist. Please login. "; 
+            } 
+        ?>
     </body>
 </html>
