@@ -47,9 +47,11 @@
                         $_SESSION["username"] = $username; 
                         $_SESSION["role"] = $data["role"]; 
                         if($data["role"] == "admin"){
-                            header("Location: admin_dashboard.php");
+                            //header("Location: ../HTML Page/admin/account.php");
+                             header("Location: adminDashboard/get_participant");
+
                         } else {
-                            header("Location: user_dashboard.php"); 
+                            //header("Location: user_dashboard.php"); 
                         }
                         
                     } else {
