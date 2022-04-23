@@ -27,7 +27,7 @@
   <div class="container-fluid p-0">
     <div class="row">
     <div class="col-xl-2 d-flex flex-column flex-shrink-0 p-3 bg-light" style="height:100vh">
-      <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+      <a href="account.php" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
         <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
         <span class="fs-4">Runner's World</span>
       </a>
@@ -40,13 +40,13 @@
           </a>
         </li>
         <li>
-          <a href="participant.php" class="nav-link active">
+          <a href="participant.php" class="nav-link link-dark">
             <i class="fa-solid fa-table-columns"></i>
              Participants List
         </a>
       </li>
       <li>
-        <a href="category.php" class="nav-link link-dark">
+        <a href="#" class="nav-link active">
           <i class="fa-solid fa-plus"></i>Category 
         </a>
       </li>
@@ -63,43 +63,64 @@
     <div  class="pt-5 pb-3 jumbotron">
       <h1>Participant List</h1>
       <hr>
-      <div class="input-group mt-4">
-        <input type="text" class="form-control" placeholder="Enter username" aria-label="Recipient's username" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">Search</button>
-        </div>
-      </div>
-    </div>
-    <table class="table table-responsive" id="registrationDetails">
-      <thead>
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">Username</th>
-          <th scope="col">Student ID</th>
-          <th scope="col">Category ID</th>
-          <th scope="col">Gender</th>
-          <th scope="col">Contact No</th>
-          <th scope="col">Address</th>
-          <th scope="col">Action</th>
-      
-        </tr>
-      </thead>
-      <tbody>
-       
 
-      </tbody>
-    </table>
     </div>
-    </div>
-  
-  </div>
+			<table class="table table-responsive" id="tab_logic">
+				<thead>
+					<tr>
+						<th class="text-center">
+							#
+						</th>
+						<th class="text-center">
+							Category Name 
+						</th>
+						<th class="text-center">
+							Quota
+						</th>
+						<th class="text-center">
+							Mobile
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr id='addr0'>
+						<td>1</td>
+						<td>
+						<input type="text" name='name[]'  placeholder='Enter Full Name' class="form-control"/>
+						</td>
+						<td>
+						<input type="email" name='mail[]' placeholder='Enter Mail' class="form-control"/>
+						</td>
+						<td>
+						<input type="number" name='mobile[]' placeholder='Enter Mobile' class="form-control"/>
+						</td>
+					</tr>
+                    <tr id='addr1'></tr>
+				</tbody>
+			</table>
+	<button id="add_row" class="btn btn-default pull-left">Add Row</button><button id='delete_row' class="pull-right btn btn-default">Delete Row</button>
+</div>
   
 </body>
 </html>
 
 <script>
+$(document).ready(function(){
+      var i=1;
+     $("#add_row").click(function(){b=i-1;
+      $('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
+      $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
+      i++; 
+  });
+     $("#delete_row").click(function(){
+    	 if(i>1){
+		 $("#addr"+(i-1)).html('');
+		 i--;
+		 }
+	 });
 
-window.onload = getParticipantList();
+});
+//window.onload = getParticipantList();
   
 function getParticipantList(){
   var xhttp = new XMLHttpRequest();
