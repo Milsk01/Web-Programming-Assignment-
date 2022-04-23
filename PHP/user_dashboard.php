@@ -9,8 +9,6 @@
 <body>
         <?php
 
-        use LDAP\Result;
-
         include_once "include.php"; 
             session_start(); 
             $role = $_SESSION["role"]; 
@@ -45,7 +43,7 @@
                     if($result){
                         $output1 = mysqli_fetch_array($result, MYSQLI_BOTH); 
                     } else {
-                        $ouput1; 
+                        $output1 = ""; 
                     } 
                 }
 
@@ -76,6 +74,8 @@
         <br><br>
         <form action="update_event.php" method="post">
         <table>
+            <input type = "hidden" name="oldval" value = <?php echo $output1[3]?>
+            ?>
             <tr>
                 <td>Participant ID: </td>
                 <td><input type="text" name="participant_id" value="<?php echo $output1[0]; ?>" readonly></td>
@@ -94,12 +94,12 @@
                     <?php 
                         if($output1[3] == '1'){
                             echo '
-                            <input type="radio" name="category_id" value="1" checked> 5km 
-                            <input type="radio" name="category_id" value="2"> 10km <br>'; 
+                            <input type="radio" name="newval" value="1" checked> 5km 
+                            <input type="radio" name="newval" value="2"> 10km <br>'; 
                         }  else {
                             echo '
-                            <input type="radio" name="category_id" value="1"> 5km 
-                            <input type="radio" name="category_id" value="2" checked> 10km <br>';
+                            <input type="radio" name="newval" value="1"> 5km 
+                            <input type="radio" name="newval" value="2" checked> 10km <br>';
                         }?>
                 </td>
             </tr>
