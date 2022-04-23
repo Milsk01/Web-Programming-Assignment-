@@ -40,8 +40,9 @@ function register_user() {
 }
 
 function login() {
-    var username = document.getElementById("username");
-    var password = document.getElementById("password");
+    var username = document.getElementById("username_login");
+    var password = document.getElementById("password_login");
+    console.log('@'+username.value);
     if (username.value == "" || password.value == "") {
         alert('Please enter all fields');
         return false;
