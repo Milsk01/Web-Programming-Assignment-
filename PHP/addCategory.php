@@ -1,20 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-    <body>
-        <?php include_once 'include.php'; 
+<?php include_once 'include.php'; 
+
 
             $category_name = $_POST['category_name']; 
-
             $sql = "SELECT * FROM event_category where category_name = ?"; 
-
             $statement = mysqli_stmt_init($conn); 
-
             if(!mysqli_stmt_prepare($statement, $sql)){
                 echo "Statement Failed"; 
             } else {
@@ -43,6 +32,4 @@
                     }
                 };
             }
-        ?>
-    </body>
-</html>
+?>
