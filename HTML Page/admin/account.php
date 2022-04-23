@@ -24,6 +24,14 @@
 
 
 <body>
+<?php 
+            session_start(); 
+            $username = $_SESSION["username"]; 
+            $role = $_SESSION["role"]; 
+
+            if(isset($username) and $role == "admin"){
+
+        ?>
   <div class="container-fluid p-0">
     <div class="row">
      <div class="col-xl-2 d-flex flex-column flex-shrink-0 p-3 bg-light" style="height:100vh">
@@ -66,7 +74,7 @@
       <form action="../PHP/register_user.php" method="POST" >
         <div class="form-label mb-3">
           <label for="username">Username</label>
-              <input type="text" name="username" class="form-control mt-1 " disabled readonly>
+              <input type="text" name="username" class="form-control mt-1 " disabled readonly value=>
         </div>
         <div class="form-label mb-2">
           <label for="username">Full Name:</label>
@@ -97,106 +105,55 @@
     </div>
   
   </div>
-  
+  <?php
+      } else {
+                echo "No session exist. Please login. "; 
+      } 
+    ?>
 </body>
 </html>
 
 <script>
 
-window.onload = getParticipantList();
-  
-function getParticipantList(){
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var decoded = JSON.parse(this.responseText);
-      showAll(decoded);
+window.onload = getUserData();
+function getUserData(){
+  // var xhttp = new XMLHttpRequest();
+  // xhttp.onreadystatechange = function() {
+  //   if (this.readyState == 4 && this.status == 200) {
+  //     console.log(this.responseText);
 
-      }
-  };
-  xhttp.open("GET", "../../PHP/adminDashboard/participant_list.php", true);
-  xhttp.send();
-}
-
-
-function showAll(data) {
- // get table body element
- var tbody = document.getElementsByTagName("tbody")[0];
-
- // for each participant
- for(let i = 0; i< data.length;i++){
-
-  // create a row element 
-  const row = document.createElement("tr");
-  
-  // for each attribute of the particpant
-  for(const item in data[i]){
-
-    // if the attribute is participant_id 
-    if(item =="participant_id"){
-      //cretae th
-      const index = document.createElement("th");
-
-      // set attribute
-      index.setAttribute("scope","row");
-
-      //set value 
-      index.innerText = data[i][item];
-    
-      //add the th element into row 
-      row.appendChild(index);
-  
-    }else{
+  //     var decoded = JSON.parse(this.responseText);
+  //     displayData(decoded);
       
-      // create normal td element 
-      const attribute = document.createElement("td");
+      
+  //     }
+  // };
+  // xhttp.open("GET", "../../PHP/adminDashboard/get_participant.php", true);
+  // xhttp.send();
 
-      //set innerText
-      attribute.innerText = data[i][item];
+  $.ajax({
+    type: "POST",
+    url: "../../PHP/adminDashboard/get_participant.php",
 
+    success: function(response){
+      var decoded = JSON.parse(response);
 
-      // add the td element into row 
-      row.appendChild(attribute);
+      displayData(decoded);
+    },
+
+    error: function(){
+        alert("error");
     }
-   
-  }
-
-
+}); 
   
-
-  // add a new row 
-  tbody.appendChild(row);
-  
- }
- 
- const rows = document.getElementsByTagName("tr");
-  console.log(rows);
-
-  for (let i = 1;i<rows.length;i++) {
-   const deleteFunc = document.createElement("td");
-   const link = document.createElement("a");
-   const delete_icon = document.createElement("i");
-   delete_icon.className += "fa-solid fa-circle-minus";
-   link.appendChild(delete_icon);
-   link.onclick = function(){
-    
-
-    const td = link.parentNode;
-    const tr = td.parentNode; 
-    
-    tr.parentNode.removeChild(tr);
-    }
-    deleteFunc.appendChild(link);
-   rows[i].appendChild(deleteFunc);
-   };
-
-   
-
-
 }
 
+function displayData(decoded){
+  const inputs = document.getElementsByTagName("input");
+  console.log(decoded);
 
-
-
-
+  for(let i = 0;i<3;i++){
+    inputs[i].value = decoded[i];
+  }
+}
 </script>
