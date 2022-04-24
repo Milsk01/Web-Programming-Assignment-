@@ -13,6 +13,7 @@
             session_start(); 
             $role = $_SESSION["role"]; 
             $username = $_SESSION["username"]; 
+
             echo "Hello $username";
 
             if(isset($username) and $role == "user"){
@@ -38,12 +39,26 @@
                 } else {
                     mysqli_stmt_bind_param($statement, "s", $username); 
                     mysqli_stmt_execute($statement); 
-
+                    
                     $result = mysqli_stmt_get_result($statement); 
-                    if($result){
-                        $output1 = mysqli_fetch_array($result, MYSQLI_BOTH); 
+                    if(mysqli_num_rows($result) > 0){
+                        $output1 = mysqli_fetch_array($result, MYSQLI_BOTH);
+                         
+                        $participant_id = $output1[0];  
+                        $student_id = $output1[2]; 
+                        $oldval = $output1[3];
+                        $gender = $output1[4]; 
+                        $phone_no = $output1[5]; 
+                        $address = $output1[6]; 
+                        $button_value = "Update"; 
                     } else {
-                        $output1 = ""; 
+                        $participant_id = "";
+                        $student_id = "";
+                        $oldval = "";
+                        $gender = "";
+                        $phone_no = "";
+                        $address = "";
+                        $button_value = "Register"; 
                     } 
                 }
 
@@ -74,61 +89,70 @@
         <br><br>
         <form action="update_event.php" method="post">
         <table>
-            <input type = "hidden" name="oldval" value = <?php echo $output1[3]?>
+            <input type = "hidden" name="oldval" value = <?php echo $oldval?>
             ?>
             <tr>
                 <td>Participant ID: </td>
-                <td><input type="text" name="participant_id" value="<?php echo $output1[0]; ?>" readonly></td>
+                <td><input type="text" name="participant_id" value="<?php echo  $participant_id?>" readonly></td>
             </tr>
             <tr>
                 <td>Username:</td>
-                <td><input type="text" name="username" value="<?php echo $output1[1]; ?>" readonly></td>
+                <td><input type="text" name="username" value="<?php echo $username; ?>" readonly></td>
             </tr>
             <tr>
                 <td>Student ID:</td>
-                <td><input type="text" name="student_id" value="<?php echo $output1[2]; ?>"></td>
+                <td><input type="text" name="student_id" value="<?php echo $student_id; ?>"></td>
             </tr>
             <tr>
                 <td>Category: </td>
                 <td>
                     <?php 
-                        if($output1[3] == '1'){
+                        if($oldval == '1'){
                             echo '
                             <input type="radio" name="newval" value="1" checked> 5km 
                             <input type="radio" name="newval" value="2"> 10km <br>'; 
-                        }  else {
+                        } else if ($oldval == '2'){
                             echo '
                             <input type="radio" name="newval" value="1"> 5km 
                             <input type="radio" name="newval" value="2" checked> 10km <br>';
-                        }?>
+                        } else {
+                            echo '
+                            <input type="radio" name="newval" value="1"> 5km 
+                            <input type="radio" name="newval" value="2"> 10km <br>';
+                        }
+                        ?>
                 </td>
             </tr>
             <tr>
                 <td>Gender</td>
                 <td>
                     <?php 
-                    if($output[4] == 'Male'){
+                    if($gender == 'Male'){
                         echo '
                         <input type="radio" name="gender" value="Male" checked> Male 
                         <input type="radio" name="gender" value="Female"> Female <br>'; 
-                    } else {
+                    } else if($gender == 'Female') {
                         echo '
                         <input type="radio" name="gender" value="Male"> Male 
                         <input type="radio" name="gender" value="Female" checked> Female <br>'; 
+                    } else {
+                        echo '
+                        <input type="radio" name="gender" value="Male"> Male 
+                        <input type="radio" name="gender" value="Female"> Female <br>'; 
                     }
                     ?>
                 </td>
             </tr>
             <tr>
                 <td>Phone No:</td>
-                <td><input type="text" name="phone_no" value="<?php echo $output1[5]; ?>"></td>
+                <td><input type="text" name="phone_no" value="<?php echo $phone_no; ?>"></td>
             </tr>
             <tr>
                 <td>Address:</td>
-                <td><input type="text" name="address" value="<?php echo $output1[6]; ?>"></td>
+                <td><input type="text" name="address" value="<?php echo $address; ?>"></td>
             </tr>
         </table>
-        <input type="submit" value="Update">
+        <input type="submit" value="<?php echo $button_value?>">
         </form>
 
         <?php
