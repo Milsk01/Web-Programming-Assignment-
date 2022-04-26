@@ -31,7 +31,7 @@
 
             if(isset($username) and $role == "admin"){
 
-        ?>
+?>
   <div class="container-fluid p-0">
     <div class="row">
      <div class="col-xl-2 d-flex flex-column flex-shrink-0 p-3 bg-light" style="height:100vh">
@@ -47,6 +47,7 @@
             Account
           </a>
         </li>
+        
         <li>
           <a href="participants.php" class="nav-link link-dark">
             <i class="fa-solid fa-table-columns"></i>
@@ -59,7 +60,7 @@
           </a>
         </li>
         <li>
-          <a href="logout.php" class="nav-link link-dark">
+          <a href="../../PHP/logout.php" class="nav-link link-dark">
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
             Logout 
           </a>
@@ -71,10 +72,10 @@
       <h1>Account</h1>
       <hr>
 
-      <form action="../PHP/register_user.php" method="POST" >
+      <form action="../../PHP/update_user.php" method="POST" >
         <div class="form-label mb-3">
           <label for="username">Username</label>
-              <input type="text" name="username" class="form-control mt-1 " disabled readonly value=>
+              <input type="text" name="username" class="form-control mt-1 " readonly>
         </div>
         <div class="form-label mb-2">
           <label for="username">Full Name:</label>
@@ -84,14 +85,21 @@
           <label for="email">Email:</label>
             <input type="text" name="email" id="email" class="form-control mt-1 " >
         </div>
+            
+        <div>
+          <a href ="#" onClick="displayHidden()"><label for="">Change Password</label></a>
+        </div>
+        <template>
         <div class="form-label mb-2">
           <label for="password">Password</label>
-          <input type="password" name="password" id="password" class="form-control mt-1">
+          <input type="password" name="password" id="password" class="form-control mt-1" >
         </div>
         <div class="form-label mb-2">
           <label for="password">New Password</label>
-          <input type="password" name="password2" id="password2" class="form-control mt-1" readonly>
+          <input type="password" name="password2" id="password2" class="form-control mt-1">
         </div>
+        </template>
+        
           <div class="text-end">
             <button type="submit" class="mt-3 btn btn-primary btn-block">Update</button>
           </div>
@@ -117,25 +125,13 @@
 
 window.onload = getUserData();
 function getUserData(){
-  // var xhttp = new XMLHttpRequest();
-  // xhttp.onreadystatechange = function() {
-  //   if (this.readyState == 4 && this.status == 200) {
-  //     console.log(this.responseText);
-
-  //     var decoded = JSON.parse(this.responseText);
-  //     displayData(decoded);
-      
-      
-  //     }
-  // };
-  // xhttp.open("GET", "../../PHP/adminDashboard/get_participant.php", true);
-  // xhttp.send();
-
+ 
   $.ajax({
     type: "POST",
     url: "../../PHP/adminDashboard/get_participant.php",
-
+    
     success: function(response){
+  
       var decoded = JSON.parse(response);
 
       displayData(decoded);
@@ -144,7 +140,7 @@ function getUserData(){
     error: function(){
         alert("error");
     }
-}); 
+  }); 
   
 }
 
@@ -156,4 +152,17 @@ function displayData(decoded){
     inputs[i].value = decoded[i];
   }
 }
+
+
+
+function displayHidden(){
+  var label =event.srcElement;
+  var temp = document.getElementsByTagName("template")[0];
+  var clon = temp.content.cloneNode(true);
+  console.log(label,temp);
+  temp.parentNode.insertBefore(clon, temp.nextSibling);
+  label.parentNode.removeChild(label);}
+
+
+
 </script>

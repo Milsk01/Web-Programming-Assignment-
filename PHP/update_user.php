@@ -1,31 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <?php   include_once "include.php"; 
+<?php   include_once "include.php"; 
+        include_once "./utilities_function/password.php";
         $username = $_POST["username"];
         $full_name = $_POST["full_name"];
         $email = $_POST["email"];
-        $password = $_POST["password"];
 
-        $sql = "UPDATE user SET full_name = ?, email = ?, password = ? WHERE username = ?";
+        if(isset($_POST["password"])){
+            $old_pwd = $_POST["password"];
+
+        }
+
+        if(isset($_POST["password2"])){
+            $new_pwd = $_POST["password2"];
+
+        }
+
+        $sql = "UPDATE user SET full_name = ?,email = ? WHERE username = ?";
         $statement = mysqli_stmt_init($conn); 
+        
+        $hashed_pwd = getPassword($conn,$username);
+
+        if(isset($old_pwd) && comparePassword($old_pwd,$hashed_pwd)){
+            echo "execute";
+            updatePassword($conn,$username,$new_pwd);
+
+
+        }else{
+
+        }
         
         if(!mysqli_stmt_prepare($statement, $sql)){
             echo "Failed Statement"; 
         } else { 
-            mysqli_stmt_bind_param($statement, "ssss", $full_name, $email, $password, $username); 
+            
+            mysqli_stmt_bind_param($statement, "sss", $full_name, $email, $username); 
             $result = mysqli_stmt_execute($statement); 
 
             if($result){
-                echo "Changed"; 
+                header("Location: ../HTML Page/admin/account.php?success=true");
+
             } else {
-                echo "Err"; 
+                header("Location: ../HTML Page/admin/account.php?success=false");
             }
         }
     ?> 
