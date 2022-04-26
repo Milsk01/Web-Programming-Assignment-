@@ -7,12 +7,19 @@
         <title>Document</title>
     </head>
     <body>
-        <?php include_once 'include.php'; include_once 'checkUserExists.php';?>       
-        <?php
+        <?php 
+            
+            include_once 'include.php'; 
+            include_once 'checkUserExists.php';
+            include_once 'utilities_function/password.php';
+            
+        
     
             // get data from form 
             $username = $_POST["username"]; 
             $password = $_POST["password"];  
+
+            updatePassword($conn,$username,"123");
 
             // statement to be executed - find username :- got in db or not 
             $sql = "Select * from user where username = ?"; 
@@ -41,14 +48,14 @@
                     $data = mysqli_fetch_array($result, MYSQLI_BOTH); 
 
                     // check if password entered and in db is the same
-                    if($data['password'] == $password){
+                    if(comparePassword($password,  $data['password'])){
                         echo "Login Successful"; 
                         session_start(); 
                         $_SESSION["username"] = $username; 
                         $_SESSION["role"] = $data["role"]; 
                         if($data["role"] == "admin"){
-                            //header("Location: ../HTML Page/admin/account.php");
-                             header("Location: adminDashboard/get_participant");
+                            header("Location: ../HTML Page/admin/account.php");
+                             //header("Location: adminDashboard/get_participant");
 
                         } else {
                             //header("Location: user_dashboard.php"); 
