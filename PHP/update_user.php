@@ -42,6 +42,5 @@
                 header("Location: ../HTML Page/admin/account.php?success=false");
             }
         }
-    ?> 
-</body>
-</html>
+    }
+?> 
