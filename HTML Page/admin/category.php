@@ -24,6 +24,14 @@
 
 
 <body>
+<?php 
+            session_start(); 
+            $username = $_SESSION["username"]; 
+            $role = $_SESSION["role"]; 
+
+            if(isset($username) and $role == "admin"){
+
+?>
   <div class="container-fluid p-0">
     <div class="row">
     <div class="col-xl-2 d-flex flex-column flex-shrink-0 p-3 bg-light" style="height:100vh">
@@ -40,7 +48,7 @@
           </a>
         </li>
         <li>
-          <a href="participant.php" class="nav-link link-dark">
+          <a href="participants.php" class="nav-link link-dark">
             <i class="fa-solid fa-table-columns"></i>
              Participants List
         </a>
@@ -51,7 +59,7 @@
         </a>
       </li>
       <li>
-        <a href="logout.php" class="nav-link link-dark">
+        <a href="../../PHP/logout.php" class="nav-link link-dark">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
           Logout 
         </a>
@@ -75,166 +83,204 @@
 							Category Name 
 						</th>
 						<th class="text-center">
-							Quota
+							# Registered Participants
 						</th>
 						<th class="text-center">
-							Mobile
+							Quota
 						</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr id='addr0'>
-						<td>1</td>
-						<td>
-						<input type="text" name='name[]'  placeholder='Enter Full Name' class="form-control"/>
-						</td>
-						<td>
-						<input type="email" name='mail[]' placeholder='Enter Mail' class="form-control"/>
-						</td>
-						<td>
-						<input type="number" name='mobile[]' placeholder='Enter Mobile' class="form-control"/>
-						</td>
-					</tr>
-                    <tr id='addr1'></tr>
+					
 				</tbody>
 			</table>
-	<button id="add_row" class="btn btn-default pull-left">Add Row</button><button id='delete_row' class="pull-right btn btn-default">Delete Row</button>
+	    <button id="add_row" onClick = "addRow()" class="mt-3 me-3 btn btn-primary btn-block">Add Row</button>
+      <button id='delete_row' onClick="deleteRow()" class="mt-3 me-3  btn btn-primary btn-block">Delete Row</button>
+      <button id='update' onClick = "update()" class="mt-3  btn btn-primary btn-block">Update</button>
 </div>
-  
+<?php
+      } else {
+                echo "No session exist. Please login. "; 
+      } 
+    ?>
 </body>
 </html>
 
 <script>
-$(document).ready(function(){
-      var i=1;
-     $("#add_row").click(function(){b=i-1;
-      $('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
-      $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
-      i++; 
-  });
-     $("#delete_row").click(function(){
-    	 if(i>1){
-		 $("#addr"+(i-1)).html('');
-		 i--;
-		 }
-	 });
+// $(document).ready(function(){
+//       var i=1;
+//      $("#add_row").click(function(){b=i-1;
+//       $('#addr'+i).html($('#addr'+b).html()).find('td:first-child').html(i+1);
+//       $('#tab_logic').append('<tr id="addr'+(i+1)+'"></tr>');
+//       i++; 
+//   });
+//      $("#delete_row").click(function(){
+//     	 if(i>1){
+// 		 $("#addr"+(i-1)).html('');
+// 		 i--;
+// 		 }
+// 	 });
 
-});
-//window.onload = getParticipantList();
-  
-function getParticipantList(){
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var decoded = JSON.parse(this.responseText);
-      showAll(decoded);
-      
-      }
-  };
-  xhttp.open("GET", "../../PHP/adminDashboard/get_participant_list.php", true);
-  xhttp.send();
+// });
+
+
+window.onload= function() {
+  init();
 }
 
-
-function showAll(data) {
- // get table body element
- var tbody = document.getElementsByTagName("tbody")[0];
-
- // for each participant
- for(let i = 0; i< data.length;i++){
-
-  // create a row element 
-  const row = document.createElement("tr");
-  
-  // for each attribute of the particpant
-  for(const item in data[i]){
-
-    // if the attribute is participant_id 
-    if(item =="participant_id"){
-      //cretae th
-      const index = document.createElement("th");
-
-      // set attribute
-      index.setAttribute("scope","row");
-
-      //set value 
-      index.innerText = data[i][item];
-    
-      //add the th element into row 
-      row.appendChild(index);
-  
-    }else{
-      
-      // create normal td element 
-      const attribute = document.createElement("td");
-
-      //set innerText
-      attribute.innerText = data[i][item];
-
-
-      // add the td element into row 
-      row.appendChild(attribute);
-    }
+function init(){
    
+  $.ajax({
+    type: "POST",
+    url: "../../PHP/adminDashboard/get_category.php",
+
+    
+    success: function(response){
+      var categories = JSON.parse(response);
+      
+      var table_body = document.getElementsByTagName("tbody")[0];
+      for(let i = 0;i<categories.length;i++){
+        var r = createRow(categories[i].category_id,categories[i].cateogry_name,categories[i].no_registered_user,categories[i].quota);
+
+        table_body.appendChild(r);
+
+        window.rowVal = i+1; 
+      }
+    },
+
+    error: function(){
+        alert("error");
+    }
+  }); 
+
+}
+
+function createRow(id,name,no_user = 0,quota=10){
+  var tr = document.createElement("tr");
+        var cat_id = document.createElement("td");
+        var cat_name = document.createElement("td");
+        var no_registered_user = document.createElement("td");
+        var cat_quota = document.createElement("td");
+
+        cat_id.innerText = id;
+        
+        var input_name = document.createElement("input");
+        input_name.setAttribute("type","text");
+        input_name.className += "form-control";
+        input_name.setAttribute("value",  name);
+        input_name.setAttribute("placeholder", "Category Name");
+
+        cat_name.appendChild(input_name);
+        
+        var input_no = document.createElement("input");
+        input_no.setAttribute("type","number");
+        input_no.className += "form-control";
+        input_no.setAttribute("value",  quota);
+        input_no.addEventListener("change",function(old_val,new_val){
+          var registered_user = this.parentNode.previousElementSibling.innerText;
+        
+
+
+          if(registered_user > this.value){
+             alert("Invalid");
+             this.value = this.defaultValue;
+
+          }else{
+
+            this.defaultValue = this.value;
+          }
+        
+        })
+        cat_quota.appendChild(input_no);
+        
+        no_registered_user.innerText= no_user;
+
+        tr.appendChild(cat_id);
+        tr.appendChild(cat_name);
+        tr.appendChild(no_registered_user);
+        tr.appendChild(cat_quota);
+
+        return tr;
+
+}
+
+ function addRow(){
+  window.rowVal++;
+  var table_body = document.getElementsByTagName("tbody")[0];
+  var r = createRow(window.rowVal,"");
+
+  table_body.appendChild(r);
+
+}
+
+function deleteRow(){
+  
+  var table_body = document.getElementsByTagName("tbody")[0];
+  var last_row = table_body.lastChild;
+ 
+  registered_user = last_row.getElementsByTagName("td")[2];
+  if(registered_user.innerText > 0){
+    alert("Invalid Action"); 
+  }else{
+    var result = confirm("Do you want to delete the row");
+    if(result){
+      window.rowVal --; 
+      table_body.removeChild(last_row);
+    }
   }
 
+}
 
-  
-
-  // add a new row 
-  tbody.appendChild(row);
-  
- }
- 
- const rows = document.getElementsByTagName("tr");
-  console.log(rows);
-
-  for (let i = 1;i<rows.length;i++) {
-   const deleteFunc = document.createElement("td");
-   const link = document.createElement("a");
-   const delete_icon = document.createElement("i");
-   delete_icon.className += "fa-solid fa-circle-minus";
-   link.appendChild(delete_icon);
-   link.onclick = function(){
-    var result = confirm("Are you sure you want to delete this data");
-
-    if(result){
-
-      const td = link.parentNode;
-      const tr = td.parentNode; 
-      deleteRow(tr.firstChild.innerText);
-      tr.parentNode.removeChild(tr);
+function update(){
+  var inputs = document.getElementsByTagName("input"); 
+  for(let i = 0;i<inputs.length;i++){
+    if(inputs[i].value == ""){
+      
+      alert("Fill in all the fields in the table before update");
+      return; 
+    }else{
+    
       
     }
+  }
+  var categories_data = get_values(); 
+  $.ajax({
+      type: "POST",
+      url: "../../PHP/adminDashboard/add_category.php",
+      data:{
+        categories_data
+      },
+      success: function(response){
+        console.log(response)
     
+      },
 
+    error: function(){
+        alert("error");
     }
-
-
-   deleteFunc.appendChild(link);
-   rows[i].appendChild(deleteFunc);
-   };
-
+  }); 
 }
-function deleteRow(ID){
+
+
+function get_values(){
+  var table = document.getElementsByTagName("tbody")[0];
+  var rows = table.getElementsByTagName("tr");
+  var categories = new Array(); 
+
   
-$.ajax({
- type: "POST",
- url: "../../PHP/delete_process.php",
- data: {
-    "ID" : ID,
- },
- success: function(data) {
- alert(data + "has been deleted");
- },
- error: function(xhr, status, error) {
- console.error(xhr);
- }
- });
+
+  for(let i = 0; i<rows.length;i++){
+    var data_columns = rows[i].getElementsByTagName("td");
+
+    var category = new Object();
+
+    category.id = data_columns[0].innerText; 
+    category.name = data_columns[1].firstChild.value; 
+    category.registered_no = data_columns[2].innerText;
+    category.quota = data_columns[3].firstChild.value; 
+    categories.push(category);
+    
+  }
+  return categories;
 }
-
-
-
-
-
 </script>
