@@ -24,6 +24,14 @@
 
 
 <body>
+<?php 
+            session_start(); 
+            $username = $_SESSION["username"]; 
+            $role = $_SESSION["role"]; 
+
+            if(isset($username) and $role == "admin"){
+
+?>
   <div class="container-fluid p-0">
     <div class="row">
     <div class="col-xl-2 d-flex flex-column flex-shrink-0 p-3 bg-light" style="height:100vh">
@@ -40,7 +48,7 @@
           </a>
         </li>
         <li>
-          <a href="participant.php" class="nav-link active">
+          <a href="participants.php" class="nav-link active">
             <i class="fa-solid fa-table-columns"></i>
              Participants List
         </a>
@@ -51,7 +59,7 @@
         </a>
       </li>
       <li>
-        <a href="logout.php" class="nav-link link-dark">
+        <a href="../../PHP/logout.php" class="nav-link link-dark">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
           Logout 
         </a>
@@ -64,9 +72,9 @@
       <h1>Participant List</h1>
       <hr>
       <div class="input-group mt-4">
-        <input type="text" class="form-control" placeholder="Enter username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <input type="text" class="form-control" placeholder="Enter username" aria-label="Recipient's username" aria-describedby="basic-addon2" onkeydown= "searchByUsername()">
         <div class="input-group-append">
-        <button class="btn btn-outline-secondary" type="button">Search</button>
+        <button class="btn btn-outline-secondary" type="button" >Search</button>
         </div>
       </div>
     </div>
@@ -93,7 +101,11 @@
     </div>
   
   </div>
-  
+  <?php
+      } else {
+                echo "No session exist. Please login. "; 
+      } 
+    ?>
 </body>
 </html>
 
@@ -101,23 +113,35 @@
 
 window.onload = getParticipantList();
   
-function getParticipantList(){
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      var decoded = JSON.parse(this.responseText);
+function getParticipantList(username =''){
+  
+  $.ajax({
+    type: "POST",
+    url: "../../PHP/adminDashboard/get_participant_list.php",
+    data:{
+      "username" : username,
+    },
+    
+    success: function(response){
+      console.log(response);
+      var decoded = JSON.parse(response);
+
       showAll(decoded);
-      
-      }
-  };
-  xhttp.open("GET", "../../PHP/adminDashboard/get_participant_list.php", true);
-  xhttp.send();
+    },
+
+    error: function(){
+        alert("error");
+    }
+  }); 
+        
 }
 
 
 function showAll(data) {
  // get table body element
  var tbody = document.getElementsByTagName("tbody")[0];
+ tbody.innerHTML="";
+ console.log("no");
 
  // for each participant
  for(let i = 0; i< data.length;i++){
@@ -199,7 +223,7 @@ function deleteRow(ID){
   
 $.ajax({
  type: "POST",
- url: "../../PHP/delete_process.php",
+ url: "../../PHP/delete_registered_user.php",
  data: {
     "ID" : ID,
  },
@@ -212,8 +236,24 @@ $.ajax({
  });
 }
 
+function searchByUsername(){
+  $.ajax({
+    type: "POST",
+    url: "../../PHP/adminDashboard/get_participant_list.php",
+    data:{
+      "username" : event.srcElement.value,
+    },
+    
+    success: function(response){
+      console.log(response);
+      var decoded = JSON.parse(response);
 
+      showAll(decoded);
+    },
 
-
-
+    error: function(){
+        alert("error");
+    }
+  }); 
+}
 </script>
