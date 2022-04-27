@@ -20,28 +20,48 @@
 
 
 <body>
-  <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">RUNNER'S WORLD</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
-          <li class="nav-item">
-            <a class="nav-link me-2" href="account.php"><i class="bi bi-person-fill me-1"></i>Account</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-2 active" href="participants.php"><i class="bi-card-list me-1"></i>Participants List</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-2" href="category.php"><i class="bi-plus me-1"></i>Add Category</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-2" href="logout.php"><i class="bi-lock-fill me-1"></i>Logout</a>
-          </li>
-        </ul>
-      </div>
+<?php 
+            session_start(); 
+            $username = $_SESSION["username"]; 
+            $role = $_SESSION["role"]; 
+
+            if(isset($username) and $role == "admin"){
+
+?>
+  <div class="container-fluid p-0">
+    <div class="row">
+    <div class="col-xl-2 d-flex flex-column flex-shrink-0 p-3 bg-light" style="height:100vh">
+      <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-4">Runner's World</span>
+      </a>
+      <hr>
+      <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+          <a href="account.php" class="nav-link link-dark" aria-current="page">
+           <i class="fa-solid fa-user"></i>
+            Account
+          </a>
+        </li>
+        <li>
+          <a href="participants.php" class="nav-link active">
+            <i class="fa-solid fa-table-columns"></i>
+             Participants List
+        </a>
+      </li>
+      <li>
+        <a href="category.php" class="nav-link link-dark">
+          <i class="fa-solid fa-plus"></i>Category 
+        </a>
+      </li>
+      <li>
+        <a href="../../PHP/logout.php" class="nav-link link-dark">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          Logout 
+        </a>
+      </li>
+      
+      </ul>
     </div>
   </nav>
   <div class="container col-xl-auto">
@@ -49,9 +69,11 @@
       <h1>Participant List</h1>
       <hr>
       <div class="input-group mt-4">
-        <input type="text" class="form-control" placeholder="Enter username" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <input type="text" class="form-control" placeholder="Enter username" aria-label="Recipient's username" aria-describedby="basic-addon2" onkeydown= "searchByUsername()">
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button">Search</button>
+
+        <button class="btn btn-outline-secondary" type="button" >Search</button>
+\
         </div>
       </div>
     </div>
@@ -75,10 +97,17 @@
       </tbody>
     </table>
   </div>
-  </div>
 
   </div>
 
+  </div>
+
+
+  <?php
+      } else {
+                echo "No session exist. Please login. "; 
+      } 
+    ?>
 </body>
 
 </html>
@@ -93,10 +122,6 @@
         var decoded = JSON.parse(this.responseText);
         showAll(decoded);
 
-      }
-    };
-    xhttp.open("GET", "../../PHP/adminDashboard/get_participant_list.php", true);
-    xhttp.send();
   }
 
 
@@ -169,32 +194,43 @@
           deleteRow(tr.firstChild.innerText);
           tr.parentNode.removeChild(tr);
 
-        }
 
+}
+function deleteRow(ID){
+  
+$.ajax({
+ type: "POST",
+ url: "../../PHP/delete_registered_user.php",
+ data: {
+    "ID" : ID,
+ },
+ success: function(data) {
+ alert(data + "has been deleted");
+ },
+ error: function(xhr, status, error) {
+ console.error(xhr);
+ }
+ });
+}
 
-      }
+function searchByUsername(){
+  $.ajax({
+    type: "POST",
+    url: "../../PHP/adminDashboard/get_participant_list.php",
+    data:{
+      "username" : event.srcElement.value,
+    },
+    
+    success: function(response){
+      console.log(response);
+      var decoded = JSON.parse(response);
 
+      showAll(decoded);
+    },
 
-      deleteFunc.appendChild(link);
-      rows[i].appendChild(deleteFunc);
-    };
-
-  }
-
-  function deleteRow(ID) {
-
-    $.ajax({
-      type: "POST",
-      url: "../../PHP/delete_process.php",
-      data: {
-        "ID": ID,
-      },
-      success: function(data) {
-        alert(data + "has been deleted");
-      },
-      error: function(xhr, status, error) {
-        console.error(xhr);
-      }
-    });
-  }
+    error: function(){
+        alert("error");
+    }
+  }); 
+}
 </script>

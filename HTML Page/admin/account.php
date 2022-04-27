@@ -20,36 +20,90 @@
 
 
 <body>
-  <!-- <?php
-        // session_start();
-        // $username = $_SESSION["username"];
-        // $role = $_SESSION["role"];
 
-        // if (isset($username) and $role == "admin") {
+<?php 
+            session_start(); 
+            $username = $_SESSION["username"]; 
+            $role = $_SESSION["role"]; 
 
-        ?> -->
-  <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">RUNNER'S WORLD</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
-          <li class="nav-item">
-            <a class="nav-link me-2 active" href="account.php"><i class="bi bi-person-fill me-1"></i>Account</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-2" href="participants.php"><i class="bi-card-list me-1"></i>Participants List</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-2" href="category.php"><i class="bi-plus me-1"></i>Add Category</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link me-2" href="logout.php"><i class="bi-lock-fill me-1"></i>Logout</a>
-          </li>
-        </ul>
+            if(isset($username) and $role == "admin"){
+
+?>
+  <div class="container-fluid p-0">
+    <div class="row">
+     <div class="col-xl-2 d-flex flex-column flex-shrink-0 p-3 bg-light" style="height:100vh">
+      <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-4">Runner's World</span>
+      </a>
+      <hr>
+      <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+          <a href="#" class="nav-link active" aria-current="page">
+           <i class="fa-solid fa-user"></i>
+            Account
+          </a>
+        </li>
+        
+        <li>
+          <a href="participants.php" class="nav-link link-dark">
+            <i class="fa-solid fa-table-columns"></i>
+             Participants List
+          </a>
+        </li>
+        <li>
+          <a href="Category" class="nav-link link-dark">
+            <i class="fa-solid fa-plus"></i>Category 
+          </a>
+        </li>
+        <li>
+          <a href="../../PHP/logout.php" class="nav-link link-dark">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            Logout 
+          </a>
+        </li> 
+      </ul>
       </div>
+    <div class="container col-xl-6 ">
+    <div  class="pt-5 pb-3 jumbotron">
+      <h1>Account</h1>
+      <hr>
+
+      <form action="../../PHP/update_user.php" method="POST" >
+        <div class="form-label mb-3">
+          <label for="username">Username</label>
+              <input type="text" name="username" class="form-control mt-1 " readonly>
+        </div>
+        <div class="form-label mb-2">
+          <label for="username">Full Name:</label>
+            <input type="text" name="full_name" id="full_name" class="form-control mt-1">
+        </div>
+        <div class="form-label mb-2">
+          <label for="email">Email:</label>
+            <input type="text" name="email" id="email" class="form-control mt-1 " >
+        </div>
+            
+        <div>
+          <a href ="#" onClick="displayHidden()"><label for="">Change Password</label></a>
+        </div>
+        <template>
+        <div class="form-label mb-2">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" class="form-control mt-1" >
+        </div>
+        <div class="form-label mb-2">
+          <label for="password">New Password</label>
+          <input type="password" name="password2" id="password2" class="form-control mt-1">
+        </div>
+        </template>
+        
+          <div class="text-end">
+            <button type="submit" class="mt-3 btn btn-primary btn-block">Update</button>
+          </div>
+      </form>
+
+    </div>
+  </div>
     </div>
   </nav>
 
@@ -65,35 +119,27 @@
 <script>
   window.onload = getUserData();
 
-  function getUserData() {
-    // var xhttp = new XMLHttpRequest();
-    // xhttp.onreadystatechange = function() {
-    //   if (this.readyState == 4 && this.status == 200) {
-    //     console.log(this.responseText);
+ 
+window.onload = getUserData();
+function getUserData(){
+ 
+  $.ajax({
+    type: "POST",
+    url: "../../PHP/adminDashboard/get_participant.php",
+    
+    success: function(response){
+  
+      var decoded = JSON.parse(response);
 
-    //     var decoded = JSON.parse(this.responseText);
-    //     displayData(decoded);
+      displayData(decoded);
+    },
 
-
-    //     }
-    // };
-    // xhttp.open("GET", "../../PHP/adminDashboard/get_participant.php", true);
-    // xhttp.send();
-
-    $.ajax({
-      type: "POST",
-      url: "../../PHP/adminDashboard/get_participant.php",
-
-      success: function(response) {
-        var decoded = JSON.parse(response);
-
-        displayData(decoded);
-      },
-
-      error: function() {
+    error: function(){
         alert("error");
-      }
-    });
+    }
+  }); 
+  
+}
 
   }
 
@@ -105,4 +151,20 @@
       inputs[i].value = decoded[i];
     }
   }
+
+}
+
+
+
+function displayHidden(){
+  var label =event.srcElement;
+  var temp = document.getElementsByTagName("template")[0];
+  var clon = temp.content.cloneNode(true);
+  console.log(label,temp);
+  temp.parentNode.insertBefore(clon, temp.nextSibling);
+  label.parentNode.removeChild(label);}
+
+
+
 </script>
+
