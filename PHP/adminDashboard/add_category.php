@@ -1,4 +1,4 @@
-<?php include_once '../include.php'; 
+<?php include_once '../db_connection.php'; 
     $categories = $_POST["categories_data"];
     
         $check_sql = "SELECT * FROM event_category where category_id = ?";

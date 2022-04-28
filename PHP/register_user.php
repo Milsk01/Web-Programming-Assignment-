@@ -1,6 +1,6 @@
 
 <?php 
-    include "include.php";
+    include "db_connection.php";
   
 
     $username = $_POST["username"]; 

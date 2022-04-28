@@ -1,4 +1,4 @@
-<?php   include_once "../include.php"; 
+<?php   include_once "../db_connection.php"; 
         include_once "../utility_functions/password.php";
         $username = $_POST["username"];
         $full_name = $_POST["full_name"];

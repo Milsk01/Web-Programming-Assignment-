@@ -1,5 +1,5 @@
 <?php 
-    include_once "../../PHP/include.php";
+    include_once "../../PHP/db_connection.php";
 
     $sql = "SELECT* FROM event_category;";
     $statement = mysqli_stmt_init($conn); 

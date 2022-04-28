@@ -1,4 +1,4 @@
-<?php   include_once "include.php"; 
+<?php   include_once "db_connection.php"; 
         include_once "./utility_functions/password.php";
         $username = $_POST["username"];
         $full_name = $_POST["full_name"];
@@ -7,7 +7,6 @@
         if(isset($_POST["password"])){
 
             $old_pwd = $_POST["password"];
-            echo $old_pwd;
 
         }
 
@@ -25,14 +24,14 @@
 
         if(isset($old_pwd) && comparePassword($old_pwd,getPassword($conn,$username))){
 
-            if(isset($new_pwd)){
+            if(isset($new_pwd) && !empty($new_pwd)){
                 updatePassword($conn,$username,$new_pwd);
                 echo "password changed";
+            }else{
+                echo "Empty Password";
             }
             
             
-        }else{
-            echo "password update failed";
         }
     
 

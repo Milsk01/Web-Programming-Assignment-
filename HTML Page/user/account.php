@@ -64,7 +64,7 @@
       <h1>Account</h1>
       <hr>
 
-      <form action="../../PHP/user_dashboard/update_user.php" method="POST" >
+      <form onsubmit = "return false" method="POST" >
         <div class="form-label mb-3">
           <label for="username">Username</label>
               <input type="text" name="username" class="form-control mt-1 " readonly>
@@ -93,7 +93,7 @@
         </template>
         
           <div class="text-end">
-            <button type="submit" class="mt-3 btn btn-primary btn-block">Update</button>
+            <button type="submit" onClick = "updateData()" class="mt-3 btn btn-primary btn-block">Update</button>
           </div>
       </form>
 
@@ -120,7 +120,6 @@ function getUserData(){
     url: "../../PHP/adminDashboard/get_participant.php",
     
     success: function(response){
-      console.log(response);
       var decoded = JSON.parse(response);
 
       displayData(decoded);
@@ -151,13 +150,46 @@ function displayHidden(){
   var label =event.srcElement;
   var temp = document.getElementsByTagName("template")[0];
   var clon = temp.content.cloneNode(true);
-  console.log(label,temp);
   temp.parentNode.insertBefore(clon, temp.nextSibling);
   label.parentNode.removeChild(label);
 
 }
 
+function updateData(){
+    
+    
+    var username= document.querySelector('input[name = username]').value
+    var full_name= document.querySelector('input[name = full_name]').value
+    var email= document.querySelector('input[name = email]').value
+    console.log( document.querySelector('input[name = password]'))
+    if(document.querySelector('input[name = password]')){
+      var password1 = document.querySelector('input[name = password]').value
+      var password2 = document.querySelector('input[name = password2]').value
 
+    }
+    
+  $.ajax({
+    type: "POST",
+    url: "../../PHP/update_user.php",
+    data:{
+      "username":username,
+      "full_name":full_name,
+      "email":email,
+      "password":password1,
+      "password2": password2 
+
+    },
+    success: function(response){
+      alert(response)
+    },
+
+    
+
+    error: function(){
+        alert("error");
+    }
+  }); 
+}
 
 
 </script>

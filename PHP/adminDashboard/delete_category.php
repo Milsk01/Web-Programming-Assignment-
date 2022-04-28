@@ -1,6 +1,6 @@
 <?php
 
-include_once '../include.php'; 
+include_once '../db_connection.php'; 
 
 $category_id = $_POST["category_id"];
 

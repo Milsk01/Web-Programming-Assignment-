@@ -1,6 +1,6 @@
 
 <?php   
-    include_once "include.php"; 
+    include_once "db_connection.php"; 
 
     $student_id = $_POST["student_id"]; 
     $category_id = $_POST["newval"]; 

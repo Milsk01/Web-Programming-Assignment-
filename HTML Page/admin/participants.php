@@ -148,6 +148,7 @@ function getParticipantList(username =''){
   function showAll(data) {
     // get table body element
     var tbody = document.getElementsByTagName("tbody")[0];
+    tbody.innerHTML = "";
 
     // for each participant
     for (let i = 0; i < data.length; i++) {

@@ -30,7 +30,7 @@
 <body>
 
 <?php
-    include_once "../../PHP/include.php";
+    include_once "../../PHP/db_connection.php";
     session_start();
 
     $username = $_SESSION["username"]; 

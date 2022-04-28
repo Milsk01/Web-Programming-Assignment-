@@ -1,6 +1,6 @@
 
     <?php 
-        include_once "../include.php"; 
+        include_once "../db_connection.php"; 
         session_start(); 
         $username = $_SESSION["username"]; 
         $role = $_SESSION["role"]; 

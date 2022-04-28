@@ -4,7 +4,7 @@
     $role = $_SESSION["role"]; 
 
     if(isset($username) and $role == "admin"){
-        include_once "../include.php"; 
+        include_once "../db_connection.php"; 
         $sql = "SELECT * FROM event_category"; 
         $statement = mysqli_stmt_init($conn); 
         if(!mysqli_stmt_prepare($statement, $sql)){
