@@ -5,11 +5,11 @@ $(function () {
     /* =========================================
         COUNTDOWN 4
      ========================================= */
-    function get15dayFromNow() {
-        return new Date(new Date().valueOf() + 15 * 24 * 60 * 60 * 1000);
+     function gettimefromdate() {
+        return new Date(2022, 4, 14, 7, 0, 0, 0);
     }
 
-    $('#clock-c').countdown(get15dayFromNow(), function(event) {
+    $('#clock-c').countdown(gettimefromdate(), function(event) {
       var $this = $(this).html(event.strftime(''
         + '<span class="h1 font-weight-bold">%D</span> Day%!d'
         + '<span class="h1 font-weight-bold">%H</span> Hr'
