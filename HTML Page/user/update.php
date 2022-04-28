@@ -23,7 +23,11 @@
   <script src = "../../JS/main.js">
     
   </script>
-  
+  <style>
+    body{
+      overflow-x:hidden ;
+    }
+  </style>
 </head>
 
 

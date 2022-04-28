@@ -16,6 +16,13 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
   </script>
+<script src="https://kit.fontawesome.com/6481f70daf.js" crossorigin="anonymous"></script>
+<script src="../../JS/form.js"></script>
+<style>
+    body{
+      overflow-x:hidden ;
+    }
+  </style>
 </head>
 
 
@@ -64,7 +71,7 @@
         </li> 
       </ul>
       </div>
-    <div class="container col-xl-6 ">
+    <div class="container col-xl-5 ">
     <div  class="pt-5 pb-3 jumbotron">
       <h1>Account</h1>
       <hr>
@@ -72,11 +79,11 @@
       <form action="" onsubmit ="return false" method="POST" >
         <div class="form-label mb-3">
           <label for="username">Username</label>
-              <input type="text" name="username" class="form-control mt-1 " readonly>
+              <input type="text" id="username" name="username" class="form-control mt-1 " readonly>
         </div>
         <div class="form-label mb-2">
           <label for="username">Full Name:</label>
-            <input type="text" name="full_name" id="full_name" class="form-control mt-1">
+            <input type="text" id="full_name" name="full_name" id="full_name" class="form-control mt-1">
         </div>
         <div class="form-label mb-2">
           <label for="email">Email:</label>
@@ -165,10 +172,24 @@ function displayHidden(){
 function updateData(){
     
     
+  
     var username= document.querySelector('input[name = username]').value
     var full_name= document.querySelector('input[name = full_name]').value
     var email= document.querySelector('input[name = email]').value
-    console.log( document.querySelector('input[name = password]'))
+   
+    if (username == "" || full_name == "" || email == "" ) {
+        alert('Please enter all fields');
+        return false;
+    }
+
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!email.match(validRegex)) {
+        alert("Invalid email address");
+        return false;
+    }
+
+    
+    
     if(document.querySelector('input[name = password]')){
       var password1 = document.querySelector('input[name = password]').value
       var password2 = document.querySelector('input[name = password2]').value

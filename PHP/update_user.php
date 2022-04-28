@@ -32,6 +32,8 @@
             }
             
             
+        }else{
+            echo "wrong password ";
         }
     
 

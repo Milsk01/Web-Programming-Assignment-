@@ -16,6 +16,13 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
   </script>
+  <script src="https://kit.fontawesome.com/6481f70daf.js" crossorigin="anonymous"></script>
+
+  <style>
+    body{
+      overflow-x:hidden ;
+    }
+  </style>
 </head>
 
 
@@ -64,7 +71,7 @@
       </ul>
     </div>
   </nav>
-  <div class="container col-xl-auto">
+  <div class="container col-xl-5">
     <div class="pt-5 pb-3 jumbotron">
       <h1>Category</h1>
       <hr>
@@ -122,7 +129,8 @@ function init(){
       
       var table_body = document.getElementsByTagName("tbody")[0];
       for(let i = 0;i<categories.length;i++){
-        var r = createRow(categories[i].category_id,categories[i].category_name,categories[i].no_registered_user,categories[i].quota);
+        console.log(categories[i].quota);
+        var r = createRow(categories[i].category_id,categories[i].category_name,categories[i].no_registered_user,categories[i].category_quota);
 
         table_body.appendChild(r);
 

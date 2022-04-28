@@ -19,6 +19,11 @@
   </script>
   <script src="https://kit.fontawesome.com/6481f70daf.js" crossorigin="anonymous"></script>
 
+  <style>
+    body{
+      overflow-x:hidden ;
+    }
+  </style>
 </head>
 
 

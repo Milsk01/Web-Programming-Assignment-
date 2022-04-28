@@ -16,6 +16,11 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
   </script>
+<style>
+    body{
+      overflow-x:hidden ;
+    }
+  </style>
 </head>
 
 
@@ -157,11 +162,22 @@ function displayHidden(){
 
 function updateData(){
     
-    
     var username= document.querySelector('input[name = username]').value
     var full_name= document.querySelector('input[name = full_name]').value
     var email= document.querySelector('input[name = email]').value
-    console.log( document.querySelector('input[name = password]'))
+
+
+    if (username == "" || full_name == "" || email == "" ) {
+        alert('Please enter all fields');
+        return false;
+    }
+
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (!email.match(validRegex)) {
+        alert("Invalid email address");
+        return false;
+    }
+
     if(document.querySelector('input[name = password]')){
       var password1 = document.querySelector('input[name = password]').value
       var password2 = document.querySelector('input[name = password2]').value
