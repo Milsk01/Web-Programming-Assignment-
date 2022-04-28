@@ -25,7 +25,7 @@
             
             var click = alert('Username taken. Please change username');
            
-            window.location.href ='../HTML Page/index.html';
+            window.location.href ='../HTML Page/index.php';
             
             
         

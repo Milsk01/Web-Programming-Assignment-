@@ -55,7 +55,9 @@
                         }
                         
                     } else {
-                        echo "Wrong Password <br>"; 
+                        header("Location: ../HTML Page?success=fail");
+                        
+
                         
                     }
                 }

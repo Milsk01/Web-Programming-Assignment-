@@ -25,6 +25,7 @@
 
     </head>
     <body>
+        
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
@@ -138,7 +139,7 @@
 
         <div class="container pt-5">
             <div class=" rounded bg-gradient-4 text-white shadow p-5 text-center mb-5">
-                <p class="mb-0 font-weight-bold text-uppercase">Let's use some call to actions</p>
+                <p class="mb-0 font-weight-bold text-uppercase">Countdown To Flagoff</p>
                 <div id="clock-c" class="countdown py-4"></div>
             </div>        
         </div>
@@ -233,3 +234,16 @@
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
     </body>
 </html>
+
+
+<?php 
+        if(isset($_GET["success"])){
+            $login =$_GET["success"];
+        
+            if(!strcmp($login,"fail")){
+                echo "<script>alert('Wrong Password') </script>";
+            }
+        }
+
+        
+?>

@@ -20,6 +20,8 @@
   <script src = "../../JS/form.js">
     
   </script>
+  <script src="https://kit.fontawesome.com/6481f70daf.js" crossorigin="anonymous"></script>
+
   <script src = "../../JS/main.js">
     
   </script>

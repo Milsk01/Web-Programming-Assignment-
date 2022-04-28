@@ -22,18 +22,20 @@
        
                
 
-        if(isset($old_pwd) && comparePassword($old_pwd,getPassword($conn,$username))){
-
-            if(isset($new_pwd) && !empty($new_pwd)){
-                updatePassword($conn,$username,$new_pwd);
-                echo "password changed";
+        if(isset($old_pwd)){
+            if(comparePassword($old_pwd,getPassword($conn,$username))){
+                
+                if(isset($new_pwd) && !empty($new_pwd)){
+                    updatePassword($conn,$username,$new_pwd);
+                    echo "password changed";
+                }else{
+                    echo "Empty Password";
+                 }
             }else{
-                echo "Empty Password";
+                echo "wrong password";
             }
             
-            
-        }else{
-            echo "wrong password ";
+        
         }
     
 
