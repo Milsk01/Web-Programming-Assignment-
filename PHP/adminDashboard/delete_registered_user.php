@@ -1,5 +1,5 @@
 <?php   
-    include_once "include.php"; 
+    include_once "../include.php"; 
     $ID = $_POST["ID"]; 
 
     $sql = "DELETE FROM registration_detail where participant_id = ? ";

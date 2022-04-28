@@ -28,6 +28,7 @@ function comparePassword($pwd,$pwd_hashed){
 
     if (password_verify($pwd, $pwd_hashed)) {
         return true;
+        
     }
     else {
         return false;
@@ -35,7 +36,6 @@ function comparePassword($pwd,$pwd_hashed){
 }
 
 function updatePassword($conn,$username,$new_pwd){
-
     $pwd_hashed = password_hash($new_pwd, PASSWORD_DEFAULT);
 
     
@@ -43,6 +43,7 @@ function updatePassword($conn,$username,$new_pwd){
     $statement = mysqli_stmt_init($conn); 
     if(!mysqli_stmt_prepare($statement, $sql)){
         // prepare stm failed 
+      
 
         return false;
     } else { 
@@ -51,6 +52,7 @@ function updatePassword($conn,$username,$new_pwd){
         $result = mysqli_stmt_execute($statement); 
 
         if($result){
+
             return true;
 
         } else {  

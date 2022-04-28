@@ -1,5 +1,7 @@
 
-<?php include "include.php"; 
+<?php 
+    include "include.php";
+  
 
     $username = $_POST["username"]; 
     $full_name = $_POST["full_name"]; 
@@ -10,7 +12,7 @@
     $statement = mysqli_stmt_init($conn); 
 
     if(!mysqli_stmt_prepare($statement, $check_sql)){
-        echo "Failed Statement"; 
+        
     } else {
         mysqli_stmt_bind_param($statement, "s", $username); 
 
@@ -19,7 +21,18 @@
         $result = mysqli_stmt_get_result($statement); 
 
         if(mysqli_num_rows($result) > 0){
-            echo "Username taken. Please change username"; 
+            echo "<script>
+            
+            var click = alert('Username taken. Please change username');
+           
+            window.location.href ='../HTML Page/index.html';
+            
+            
+        
+            </script>";
+
+            
+            
         } else {
             $sql = "INSERT INTO user VALUES (?, ? , ? ,?, 'user')"; 
 
@@ -28,7 +41,7 @@
             if(!mysqli_stmt_prepare($statement, $sql)){
                 echo "Statement Failed"; 
             } else {
-
+                $password = password_hash($password, PASSWORD_DEFAULT);
                 // bind parameters to placeholder 
                 mysqli_stmt_bind_param($statement, "ssss", $username, $full_name, $email, $password); 
 
@@ -38,10 +51,13 @@
                 // get data
                 mysqli_stmt_get_result($statement); 
 
-                if($result){
-                    echo "Added"; 
+                if($result){ 
+                    
+                    session_start();
+                    $_SESSION["username"] = $username; 
+                    $_SESSION["role"] = "user";
+                    header("Location: ../HTML Page/user/account.php");
                 } else {
-                    echo "Err"; 
                 }
             }
         }

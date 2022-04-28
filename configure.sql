@@ -15,7 +15,8 @@ CHARSET=latin1 COLLATE latin1_swedish_ci;
 CREATE TABLE `wpproject`.`event_category` ( 
        `category_id` INT(5) NOT NULL AUTO_INCREMENT , 
        `category_name` VARCHAR(30) NOT NULL , 
-       `category_quota` INT(2) NOT NULL , 
+       `category_quota` INT(2) NOT NULL ,
+       `no_registered_user` INT(2) DEFAULT 0, 
        PRIMARY KEY (`category_id`)
        ) 
 ENGINE = InnoDB 

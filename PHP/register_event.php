@@ -44,7 +44,7 @@ if(!mysqli_stmt_prepare($statement, $sql)){
                 mysqli_stmt_get_result($statement); 
 
                 if($result){
-                    echo "Added"; 
+                   
 
                     $sql = 'SELECT no_registered_user FROM event_category where category_id = ?'; 
                     $statement = mysqli_stmt_init($conn); 
@@ -71,7 +71,8 @@ if(!mysqli_stmt_prepare($statement, $sql)){
                             $result = mysqli_stmt_execute($statement);
                             
                             if($result){
-                                echo "Increased Number"; 
+                                echo "Success"; 
+                                
                             } else {
                                 echo "Error"; 
                             }

@@ -15,7 +15,10 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    
   </script>
+  <script src="https://kit.fontawesome.com/6481f70daf.js" crossorigin="anonymous"></script>
+
 </head>
 
 
@@ -73,7 +76,7 @@
         <div class="input-group-append">
 
         <button class="btn btn-outline-secondary" type="button" >Search</button>
-\
+
         </div>
       </div>
     </div>
@@ -113,16 +116,33 @@
 </html>
 
 <script>
+  
   window.onload = getParticipantList();
 
-  function getParticipantList() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        var decoded = JSON.parse(this.responseText);
-        showAll(decoded);
 
-  }
+function getParticipantList(username =''){
+
+  $.ajax({
+    type: "POST",
+    url: "../../PHP/adminDashboard/get_participant_list.php",
+    data:{
+      "username" : username,
+    },
+
+    success: function(response){
+      console.log(response);
+      var decoded = JSON.parse(response);
+  
+      showAll(decoded);
+    },
+  
+
+    error: function(){
+        alert("error");
+    }
+  }); 
+
+}
 
 
   function showAll(data) {
@@ -193,24 +213,33 @@
           const tr = td.parentNode;
           deleteRow(tr.firstChild.innerText);
           tr.parentNode.removeChild(tr);
+        }
+        
+      }
+
+
+    deleteFunc.appendChild(link);
+    rows[i].appendChild(deleteFunc);
+  };
+
 
 
 }
 function deleteRow(ID){
   
-$.ajax({
+  $.ajax({
  type: "POST",
- url: "../../PHP/delete_registered_user.php",
+ url: "../../PHP/adminDashboard/delete_registered_user.php",
  data: {
     "ID" : ID,
  },
  success: function(data) {
- alert(data + "has been deleted");
+  console.log("data");
+  alert(data + "has been deleted");
  },
  error: function(xhr, status, error) {
- console.error(xhr);
- }
- });
+  console.error(xhr);
+ }});
 }
 
 function searchByUsername(){

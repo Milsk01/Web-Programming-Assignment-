@@ -22,11 +22,10 @@
 <body>
 
 <?php 
-            session_start(); 
+            session_start();
             $username = $_SESSION["username"]; 
             $role = $_SESSION["role"]; 
-
-            if(isset($username) and $role == "admin"){
+            if(isset($username) and $role == "user"){
 
 ?>
   <div class="container-fluid p-0">
@@ -46,16 +45,12 @@
         </li>
         
         <li>
-          <a href="participants.php" class="nav-link link-dark">
+          <a href="route.php" class="nav-link link-dark">
             <i class="fa-solid fa-table-columns"></i>
-             Participants List
+             Event 
           </a>
         </li>
-        <li>
-          <a href="Category" class="nav-link link-dark">
-            <i class="fa-solid fa-plus"></i>Category 
-          </a>
-        </li>
+      
         <li>
           <a href="../../PHP/logout.php" class="nav-link link-dark">
             <i class="fa-solid fa-arrow-right-from-bracket"></i>
@@ -69,7 +64,7 @@
       <h1>Account</h1>
       <hr>
 
-      <form action="" onsubmit ="return false" method="POST" >
+      <form action="../../PHP/user_dashboard/update_user.php" method="POST" >
         <div class="form-label mb-3">
           <label for="username">Username</label>
               <input type="text" name="username" class="form-control mt-1 " readonly>
@@ -98,7 +93,7 @@
         </template>
         
           <div class="text-end">
-            <button type="submit" onClick = "updateData()" class="mt-3 btn btn-primary btn-block">Update</button>
+            <button type="submit" class="mt-3 btn btn-primary btn-block">Update</button>
           </div>
       </form>
 
@@ -107,17 +102,17 @@
     </div>
   </nav>
 
-  <!-- <?php
+  <?php
         } else {
           echo "No session exist. Please login. ";
         }
-        ?> -->
+        ?>
 </body>
 
 </html>
 
 <script>
-window.onload = getUserData();
+  window.onload = getUserData();
 function getUserData(){
  
   $.ajax({
@@ -125,7 +120,7 @@ function getUserData(){
     url: "../../PHP/adminDashboard/get_participant.php",
     
     success: function(response){
-  
+      console.log(response);
       var decoded = JSON.parse(response);
 
       displayData(decoded);
@@ -138,11 +133,10 @@ function getUserData(){
   
 }
 
-  
 
   function displayData(decoded) {
     const inputs = document.getElementsByTagName("input");
- 
+    console.log(decoded);
 
     for (let i = 0; i < 3; i++) {
       inputs[i].value = decoded[i];
@@ -159,44 +153,11 @@ function displayHidden(){
   var clon = temp.content.cloneNode(true);
   console.log(label,temp);
   temp.parentNode.insertBefore(clon, temp.nextSibling);
-  label.parentNode.removeChild(label);}
+  label.parentNode.removeChild(label);
 
-
-function updateData(){
-    
-    
-    var username= document.querySelector('input[name = username]').value
-    var full_name= document.querySelector('input[name = full_name]').value
-    var email= document.querySelector('input[name = email]').value
-    console.log( document.querySelector('input[name = password]'))
-    if(document.querySelector('input[name = password]')){
-      var password1 = document.querySelector('input[name = password]').value
-      var password2 = document.querySelector('input[name = password2]').value
-
-    }
-    
-  $.ajax({
-    type: "POST",
-    url: "../../PHP/update_user.php",
-    data:{
-      "username":username,
-      "full_name":full_name,
-      "email":email,
-      "password":password1,
-      "password2": password2 
-
-    },
-    success: function(response){
-      alert(response)
-    },
-
-    
-
-    error: function(){
-        alert("error");
-    }
-  }); 
 }
+
+
 
 
 </script>

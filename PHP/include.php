@@ -15,7 +15,7 @@
             mysqli_stmt_execute($statement); 
             $result = mysqli_stmt_get_result($statement); 
             $output = mysqli_fetch_array($result, MYSQLI_BOTH); 
-            $exceed = $output[0] > $output[1]; 
+            $exceed = $output[0] >= $output[1]; 
 
             return $exceed; 
         }

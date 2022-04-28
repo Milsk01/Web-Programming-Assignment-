@@ -4,7 +4,7 @@
              $role = $_SESSION["role"]; 
              $username = $_SESSION["username"]; 
 
-             if(isset($username) and $role == "admin"){
+             if(isset($username)){
                 $sql = "SELECT username, full_name, email FROM user where username = ?"; 
                 $statement = mysqli_stmt_init($conn); 
 

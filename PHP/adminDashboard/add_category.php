@@ -13,20 +13,20 @@
             $result = mysqli_stmt_get_result($statement); 
 
                 if(mysqli_num_rows($result) == 1){
-                    echo "there ";
                     update_category($conn,$categories[$i]["name"],$categories[$i]["quota"],$categories[$i]["id"]);
                 }else{
-                    echo "here";
                     insert_category($conn,$categories[$i]["name"],$categories[$i]["quota"]);
                 }
-            
             }
+
+            echo "success";
+
         }
         
 
     
 function update_category($conn,$name,$quota,$id){
-    $update_sql = "UPDATE event_category SET cateogry_name = ?, category_quota = ? WHERE category_id = ?";
+    $update_sql = "UPDATE event_category SET category_name = ?, category_quota = ? WHERE category_id = ?";
     $statement = mysqli_stmt_init($conn); 
     if(!mysqli_stmt_prepare($statement, $update_sql)){
         echo "Statement Failed"; 
@@ -45,14 +45,15 @@ function insert_category($conn,$name,$quota){
         echo "Statement Failed"; 
     }else{
         $no = '0';
-        mysqli_stmt_bind_param($statement, "sss", $name,$no,$quota);
+        mysqli_stmt_bind_param($statement, "sss", $name,$quota,$no);
 
         if(mysqli_stmt_execute($statement)){
-            echo "true";
+            
         }
         
     }
 }
+
 
             
              

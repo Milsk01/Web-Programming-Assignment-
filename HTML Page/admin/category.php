@@ -122,7 +122,7 @@ function init(){
       
       var table_body = document.getElementsByTagName("tbody")[0];
       for(let i = 0;i<categories.length;i++){
-        var r = createRow(categories[i].category_id,categories[i].cateogry_name,categories[i].no_registered_user,categories[i].quota);
+        var r = createRow(categories[i].category_id,categories[i].category_name,categories[i].no_registered_user,categories[i].quota);
 
         table_body.appendChild(r);
 
@@ -187,9 +187,8 @@ function createRow(id,name,no_user = 0,quota=10){
 }
 
  function addRow(){
-  window.rowVal++;
   var table_body = document.getElementsByTagName("tbody")[0];
-  var r = createRow(window.rowVal,"");
+  var r = createRow('',"");
 
   table_body.appendChild(r);
 
@@ -208,6 +207,29 @@ function deleteRow(){
     if(result){
       window.rowVal --; 
       table_body.removeChild(last_row);
+
+      if(last_row.firstChild.innerText != ""){
+
+        var category_id = last_row.firstChild.innerText;
+        
+
+        
+        $.ajax({
+        type: "POST",
+        url: "../../PHP/adminDashboard/delete_category.php",
+        data:{
+          "category_id" :category_id,
+        },
+        success: function(response){
+          alert(response);
+    
+        },
+
+        error: function(){
+        alert("error");
+     }
+      }); 
+      }
     }
   }
 
@@ -220,9 +242,6 @@ function update(){
       
       alert("Fill in all the fields in the table before update");
       return; 
-    }else{
-    
-      
     }
   }
   var categories_data = get_values(); 
@@ -233,7 +252,8 @@ function update(){
         categories_data
       },
       success: function(response){
-        console.log(response)
+        alert(response);
+        location.reload();
     
       },
 

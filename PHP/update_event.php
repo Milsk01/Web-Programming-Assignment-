@@ -10,27 +10,27 @@
     $username = $_POST["username"];
     $old_category_id = $_POST["oldval"]; 
 
-    echo $category_id; 
-    echo $old_category_id; 
+
+
 
     $exceed = quota($conn, $category_id); 
-    if($exceed){
+    if($exceed && ((int)$category_id != (int)$old_category_id)){
         echo "Full Quota"; 
     } else {
         $sql = "UPDATE registration_detail SET student_id = ?, category_id = ?, gender = ?, phone_no = ?, address = ? WHERE username = ?";
         $statement = mysqli_stmt_init($conn); 
         
         if(!mysqli_stmt_prepare($statement, $sql)){
-            echo "Failed Statement"; 
         } else { 
             mysqli_stmt_bind_param($statement, "ssssss", $student_id, $category_id, $gender, $phone_no, $address, $username); 
             $result = mysqli_stmt_execute($statement); 
 
             if($result){
-                echo "Changed"; 
-
                 $sql = 'SELECT no_registered_user FROM event_category where category_id = ?'; 
                 $statement = mysqli_stmt_init($conn); 
+
+                $increased;
+                $decreased;
 
                 if(!mysqli_stmt_prepare($statement, $sql)){
                     echo "Statement Failed while getting number"; 
@@ -41,8 +41,10 @@
                     $output = mysqli_fetch_array($result, MYSQLI_BOTH); 
 
                     $num = $output[0]; 
+                   
                     $int = (int)$num; 
                     $newNum = $int+1; 
+
                     $updated_num = (string)$newNum; 
                     $update_query = 'UPDATE event_category SET no_registered_user = ? where category_id = ?'; 
                     $statement = mysqli_stmt_init($conn); 
@@ -53,10 +55,12 @@
                         mysqli_stmt_bind_param($statement, "ss", $updated_num, $category_id); 
                         $result = mysqli_stmt_execute($statement);
                         
+
                         if($result){
-                            echo "Increased Number"; 
+                            $increased = true;
+                            
                         } else {
-                            echo "Error"; 
+                            $increased = false; 
                         }
                     }
                 }
@@ -86,14 +90,18 @@
                         $result = mysqli_stmt_execute($statement);
                         
                         if($result){
-                            echo "Decreased Number"; 
-                        } else {
-                            echo "Error"; 
+                            $decreased = true;
+                        }
+                        else{
+                            $decreased = false;
+
                         }
                     }
+                if($increased && $decreased){
+                    echo "Update Success";
                 }
-
-            } else {
+            }
+        }else{
                 echo "Err"; 
             }
         }
