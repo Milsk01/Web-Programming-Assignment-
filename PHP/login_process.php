@@ -34,7 +34,17 @@
 
             // check if any row match the username 
             if(mysqli_num_rows($result) == 0){
-             echo "Username not available"; 
+
+                echo "<script>
+                
+                var click = alert('Username not available');
+            
+                window.location.href ='../web_pages/index.php';
+                
+                
+            
+                </script>";
+       
             } else {
             // convert raw data to array (if any)
             $data = mysqli_fetch_array($result, MYSQLI_BOTH); 
@@ -48,14 +58,14 @@
                         $_SESSION["username"] = $username; 
                         $_SESSION["role"] = $data["role"]; 
                         if($data["role"] == "admin"){
-                            header("Location: ../HTML Page/admin/account.php");
+                            header("Location: ../web_pages/admin/account.php");
 
                         } else {
-                            header("Location: ../HTML Page/user/account.php");
+                            header("Location: ../web_pages/user/account.php");
                         }
                         
                     } else {
-                        header("Location: ../HTML Page?success=fail");
+                        header("Location: ../web_pages?success=fail");
                         
 
                         

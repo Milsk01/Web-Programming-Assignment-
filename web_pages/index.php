@@ -56,7 +56,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="../PHP/register_user.php" method="POST" onsubmit="return register_user()">
+                        <form action="../PHP/user_dashboard/register_user.php" method="POST" onsubmit="return register_user()">
                             <div class="form-label mb-3">
                                 <label for="username">Username:</label>
                                 <input type="text" name="username" id="username" class="form-control"

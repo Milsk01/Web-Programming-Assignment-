@@ -1,10 +1,16 @@
 <?php
 
 include_once '../db_connection.php'; 
+session_start(); 
+$username = $_SESSION["username"]; 
+$role = $_SESSION["role"]; 
+if(isset($username) and $role == "admin"){
+    $category_id = $_POST["category_id"];
+    delete_category($conn,$category_id);
 
-$category_id = $_POST["category_id"];
-
-delete_category($conn,$category_id);
+} else {
+          echo "No session exist. Please login. ";
+}
 function delete_category($conn,$category_id){
     $insert_sql = "DELETE FROM event_category where category_id = ? ";
     $statement = mysqli_stmt_init($conn) or die ("failed");

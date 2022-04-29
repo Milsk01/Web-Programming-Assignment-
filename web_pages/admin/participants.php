@@ -128,7 +128,7 @@ function getParticipantList(username =''){
 
   $.ajax({
     type: "POST",
-    url: "../../PHP/adminDashboard/get_participant_list.php",
+    url: "../../PHP/admin_dashboard/get_participant_list.php",
     data:{
       "username" : username,
     },
@@ -234,7 +234,7 @@ function deleteRow(ID){
   
   $.ajax({
  type: "POST",
- url: "../../PHP/adminDashboard/delete_registered_user.php",
+ url: "../../PHP/admin_dashboard/delete_registered_user.php",
  data: {
     "ID" : ID,
  },
@@ -249,7 +249,7 @@ function deleteRow(ID){
 function searchByUsername(){
   $.ajax({
     type: "POST",
-    url: "../../PHP/adminDashboard/get_participant_list.php",
+    url: "../../PHP/admin_dashboard/get_participant_list.php",
     data:{
       "username" : event.srcElement.value,
     },

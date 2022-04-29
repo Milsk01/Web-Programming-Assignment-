@@ -120,7 +120,7 @@ function init(){
    
   $.ajax({
     type: "POST",
-    url: "../../PHP/adminDashboard/get_category.php",
+    url: "../../PHP/admin_dashboard/get_category.php",
 
     
     success: function(response){
@@ -223,7 +223,7 @@ function deleteRow(){
         
         $.ajax({
         type: "POST",
-        url: "../../PHP/adminDashboard/delete_category.php",
+        url: "../../PHP/admin_dashboard/delete_category.php",
         data:{
           "category_id" :category_id,
         },
@@ -254,7 +254,7 @@ function update(){
   var categories_data = get_values(); 
   $.ajax({
       type: "POST",
-      url: "../../PHP/adminDashboard/add_category.php",
+      url: "../../PHP/admin_dashboard/add_category.php",
       data:{
         categories_data
       },

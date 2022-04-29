@@ -15,9 +15,11 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+
+
   </script>
-<script src="https://kit.fontawesome.com/6481f70daf.js" crossorigin="anonymous"></script>
-<script src="../../JS/form.js"></script>
+    <script src="https://kit.fontawesome.com/6481f70daf.js" crossorigin="anonymous"></script>
+
 <style>
     body{
       overflow-x:hidden ;
@@ -29,21 +31,22 @@
 <body>
 
 <?php 
-            session_start(); 
+            session_start();
             $username = $_SESSION["username"]; 
             $role = $_SESSION["role"]; 
-
-            if(isset($username) and $role == "admin"){
+            if(isset($username) and $role == "user"){
 
 ?>
   <div class="container-fluid p-0">
     <div class="row">
-    <div class="d-none  d-xl-block col-2 col-md-3 col-xl-2 d-md-blockcol-xl-2 d-flex flex-column flex-shrink-0 p-3 bg-light" style="height:100vh">
-      <a href="#" class="d-flex align-items-center mb-3 mb-md-0 ms-4 me-md-auto link-dark text-decoration-none">  
+     <div class="d-none  d-xl-block col-2 col-md-3 col-xl-2 d-md-blockcol-xl-2 d-flex flex-column flex-shrink-0 p-3 bg-light" style="height:100vh">
+       <a href="#" class="d-flex align-items-center mb-3 mb-md-0 ms-4 me-md-auto link-dark text-decoration-none">
+        
         <span class="fs-4">Runner's World</span>
       </a>
       <hr>
       <ul class="nav nav-pills flex-column mb-auto">
+              
         <li class="nav-item">
           <a href="#" class="nav-link active" aria-current="page">
            <i class="fa-solid fa-user me-2"></i>
@@ -52,16 +55,12 @@
         </li>
         
         <li>
-          <a href="participants.php" class="nav-link link-dark">
+          <a href="route.php" class="nav-link link-dark">
             <i class="fa-solid fa-table-columns me-2"></i>
-             Participants List
+             Event 
           </a>
         </li>
-        <li>
-          <a href="Category" class="nav-link link-dark">
-            <i class="fa-solid fa-plus me-2"></i>Category 
-          </a>
-        </li>
+      
         <li>
           <a href="../../PHP/logout.php" class="nav-link link-dark">
             <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>
@@ -71,18 +70,18 @@
       </ul>
       </div>
       <div class="container col-8 col-xl-6">
-    <div  class="pt-5 pb-3 jumbotron">
+      <div  class="pt-5 pb-3 jumbotron">
       <h1>Account</h1>
       <hr>
 
-      <form action="" onsubmit ="return false" method="POST" >
+      <form onsubmit = "return false" method="POST" >
         <div class="form-label mb-3">
           <label for="username">Username</label>
-              <input type="text" id="username" name="username" class="form-control mt-1 " readonly>
+              <input type="text" name="username" class="form-control mt-1 " readonly>
         </div>
         <div class="form-label mb-2">
           <label for="username">Full Name:</label>
-            <input type="text" id="full_name" name="full_name" id="full_name" class="form-control mt-1">
+            <input type="text" name="full_name" id="full_name" class="form-control mt-1">
         </div>
         <div class="form-label mb-2">
           <label for="email">Email:</label>
@@ -113,25 +112,24 @@
     </div>
   </nav>
 
-  <!-- <?php
+  <?php
         } else {
           echo "No session exist. Please login. ";
         }
-        ?> -->
+        ?>
 </body>
 
 </html>
 
 <script>
-window.onload = getUserData();
+  window.onload = getUserData();
 function getUserData(){
  
   $.ajax({
     type: "POST",
-    url: "../../PHP/adminDashboard/get_participant.php",
+    url: "../../PHP/admin_dashboard/get_participant.php",
     
     success: function(response){
-  
       var decoded = JSON.parse(response);
 
       displayData(decoded);
@@ -144,11 +142,10 @@ function getUserData(){
   
 }
 
-  
 
   function displayData(decoded) {
     const inputs = document.getElementsByTagName("input");
- 
+    console.log(decoded);
 
     for (let i = 0; i < 3; i++) {
       inputs[i].value = decoded[i];
@@ -163,19 +160,18 @@ function displayHidden(){
   var label =event.srcElement;
   var temp = document.getElementsByTagName("template")[0];
   var clon = temp.content.cloneNode(true);
-  console.log(label,temp);
   temp.parentNode.insertBefore(clon, temp.nextSibling);
-  label.parentNode.removeChild(label);}
+  label.parentNode.removeChild(label);
 
+}
 
 function updateData(){
     
-    
-  
     var username= document.querySelector('input[name = username]').value
     var full_name= document.querySelector('input[name = full_name]').value
     var email= document.querySelector('input[name = email]').value
-   
+
+
     if (username == "" || full_name == "" || email == "" ) {
         alert('Please enter all fields');
         return false;
@@ -187,8 +183,6 @@ function updateData(){
         return false;
     }
 
-    
-    
     if(document.querySelector('input[name = password]')){
       var password1 = document.querySelector('input[name = password]').value
       var password2 = document.querySelector('input[name = password2]').value
@@ -197,7 +191,7 @@ function updateData(){
     
   $.ajax({
     type: "POST",
-    url: "../../PHP/update_user.php",
+    url: "../../PHP/user_dashboard/update_user.php",
     data:{
       "username":username,
       "full_name":full_name,

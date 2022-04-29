@@ -16,14 +16,10 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
   </script>
-
-  <script src = "../../JS/form.js">
-    
-  </script>
   <script src="https://kit.fontawesome.com/6481f70daf.js" crossorigin="anonymous"></script>
 
-  <script src = "../../JS/main.js">
-    
+  <script src = "../../JS/form.js">
+
   </script>
   <style>
     body{
@@ -35,17 +31,11 @@
 
 <body>
 
-<?php
-    include_once "../../PHP/db_connection.php";
-    session_start();
-
-    $username = $_SESSION["username"]; 
-    $role = $_SESSION["role"]; 
-    $sql = "SELECT * FROM registration_detail WHERE username='$username'";
-    $result = mysqli_query($conn, $sql) or die("Error due to " . mysqli_error($conn));
-    $data = mysqli_fetch_array($result, MYSQLI_BOTH);
-    $_SESSION["old_cat"] = $data["category_id"];
-    if(isset($username) and $role == "user"){
+<?php 
+            session_start();
+            $username = $_SESSION["username"]; 
+            $role = $_SESSION["role"]; 
+            if(isset($username) and $role == "user"){
 
 ?>
   <div class="container-fluid p-0">
@@ -57,14 +47,14 @@
       <hr>
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-          <a href="account.php" class="nav-link link-dark " aria-current="page">
+          <a href="account.php" class="nav-link link-dark" aria-current="page">
            <i class="fa-solid fa-user me-2"></i>
             Account
           </a>
         </li>
         
         <li>
-          <a href="#" class="nav-link active ">
+          <a href="route.php" class="nav-link   active">
             <i class="fa-solid fa-table-columns me-2"></i>
              Event 
           </a>
@@ -78,7 +68,7 @@
         </li> 
       </ul>
       </div>
-    <div class="container col-8 col-xl-6 ">
+      <div class="container col-8 col-xl-6 ">
     <div  class="pt-5 pb-3 jumbotron">
       <h1>Event</h1>
       <hr>
@@ -86,21 +76,21 @@
                 <div class="row mb-3">
                     <label for="username" class="col-sm-2 col-form-label">Username</label>
                     <div class="col-sm-10">
-                        <input type="text" name="username" class="form-control" id="username" value="<?php  echo "$data[1]"; ?>" readonly>
+                        <input type="text" name="username" class="form-control" id="username" value="<?php echo "$username"; ?>" readonly>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="student_id" class="col-sm-2 col-form-label">Student ID</label>
                     <div class="col-sm-10">
-                        <input type="text" name="student_id" class="form-control" id="student_id" value="<?php echo "$data[2]"; ?>">
+                        <input type="text" name="student_id" class="form-control" id="student_id">
                     </div>
                 </div>
                 <fieldset class="row mb-3">
                     <legend class="col-form-label col-sm-2 pt-0">Category</legend>
                     <div class="col-sm-10">
-                    <div class="col-sm-10">
                       <?php 
                         include_once "../../PHP/user_dashboard/get_category.php";
+
                         for($i = 0; $i< count($output);$i++){
                           $isDisabled;
 
@@ -111,22 +101,16 @@
                             $isDisabled = true; 
 
                           }
-
                           
                           echo '
                           <div class="form-check">
                             <input class="form-check-input" type="radio" name="category_id" value="'.$output[$i][0].'"';
 
-                          if($isDisabled && strcmp($data["category_id"],$output[$i][0])){
-                            echo "disabled";
+                          if($isDisabled){
+                            echo "disabled ";
                           }
 
-                          if($output[$i][0] == $data["category_id"]){
-                              echo " checked";
-                          }
-
-
-                          echo'> 
+                          echo'>
                             <label class="form-check-label" >
                             '.$output[$i][1].'
                             </label>
@@ -135,21 +119,20 @@
                         }
                       
                       ?>
+                        
                     </div>
                 </fieldset>
                 <fieldset class="row mb-3">
                     <legend class="col-form-label col-sm-2 pt-0">Gender</legend>
                     <div class="col-sm-10">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="Female" value="female" <?php if (!strcmp($data["gender"],"female")) echo "checked" ?> >
+                            <input class="form-check-input" type="radio" name="gender" id="Female" value="female">
                             <label class="form-check-label" for="Female">
                                 Female
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="gender" id="Male" value="male" <?php if (!strcmp($data["gender"],"male")) echo "checked" ?> >
-
-
+                            <input class="form-check-input" type="radio" name="gender" id="Male" value="male">
                             <label class="form-check-label" for="Male">
                                 Male
                             </label>
@@ -159,17 +142,17 @@
                 <div class="row mb-3">
                     <label for="phone_no" class="col-sm-2 col-form-label">Phone no</label>
                     <div class="col-sm-10">
-                        <input type="text" name="phone_no" class="form-control" id="phone_no" value="<?php echo "$data[5]"; ?>">
+                        <input type="text" name="phone_no" class="form-control" id="phone_no">
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="address" class="col-sm-2 col-form-label">Address</label>
                     <div class="col-sm-10">
-                        <textarea name="address" class="form-control" id="address" rows="5"><?php echo "$data[6]"; ?></textarea><br>
+                        <textarea name="address" class="form-control" id="address" rows="5"></textarea><br>
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary" onclick =  "updateDetails()">Update</button>
+                <button type="submit" onclick= "registration()" class="btn btn-primary">Register</button>
             </form>
 
     </div>
@@ -183,10 +166,10 @@
         }
         ?>
 </body>
-
 <script>
-  function updateDetails(){
-    var old = "<?php echo $_SESSION['old_cat'] ?>"
+  function registration(){
+
+
     var username = document.getElementById("username");
     var student_id = document.getElementById("student_id");
     var category_id = document.querySelector('input[name = category_id]:checked')
@@ -194,27 +177,29 @@
     var phone_no = document.getElementById("phone_no");
     var address = document.getElementById("address");
 
-    
     if(!register_event()){
       return false;
     }else{
       $.ajax({
       type: "POST",
-      url: "../../PHP/update_event.php",
+      url: "../../PHP/user_dashboard/register_event.php",
     
       success: function(response){
-        alert(response);
-        location.reload()
+        alert(response); 
+        if(response == "Success"){
+          window.location.href = 'route.php';
+        }
+
+        
 
       },
       
       data:{
         "username":username.value,
         "student_id":student_id.value,
-        "newval":category_id.value,
+        "category_id":category_id.value,
         "gender":gender.value,
         "phone_no":phone_no.value,
-        "oldval": old,
         "address":address.value
         
     
@@ -232,4 +217,5 @@
   }
   
 </script>
+
 </html>
