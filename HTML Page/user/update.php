@@ -50,36 +50,35 @@
 ?>
   <div class="container-fluid p-0">
     <div class="row">
-     <div class="col-xl-2 d-flex flex-column flex-shrink-0 p-3 bg-light" style="height:100vh; position:fixed">
-      <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+    <div class="d-none  d-xl-block col-2 col-md-3 col-xl-2 d-md-blockcol-xl-2 d-flex flex-column flex-shrink-0 p-3 bg-light" style="height:100vh">
+      <a href="#" class="d-flex align-items-center mb-3 mb-md-0 ms-4 me-md-auto link-dark text-decoration-none">
         <span class="fs-4">Runner's World</span>
       </a>
       <hr>
       <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
           <a href="account.php" class="nav-link link-dark " aria-current="page">
-           <i class="fa-solid fa-user"></i>
+           <i class="fa-solid fa-user me-2"></i>
             Account
           </a>
         </li>
         
         <li>
           <a href="#" class="nav-link active ">
-            <i class="fa-solid fa-table-columns"></i>
+            <i class="fa-solid fa-table-columns me-2"></i>
              Event 
           </a>
         </li>
       
         <li>
           <a href="../../PHP/logout.php" class="nav-link link-dark">
-            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <i class="fa-solid fa-arrow-right-from-bracket me-2"></i>
             Logout 
           </a>
         </li> 
       </ul>
       </div>
-    <div class="container col-xl-5 ">
+    <div class="container col-8 col-xl-6 ">
     <div  class="pt-5 pb-3 jumbotron">
       <h1>Event</h1>
       <hr>
