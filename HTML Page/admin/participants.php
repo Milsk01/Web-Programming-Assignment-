@@ -239,8 +239,7 @@ function deleteRow(ID){
     "ID" : ID,
  },
  success: function(data) {
-  console.log("data");
-  alert(data + "has been deleted");
+  alert("Data has been deleted");
  },
  error: function(xhr, status, error) {
   console.error(xhr);
